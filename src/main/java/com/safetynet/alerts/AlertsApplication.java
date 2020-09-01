@@ -19,6 +19,8 @@ public class AlertsApplication {
             dataService.init();
         };
     }
+
+    // TODO: create class AlertAppConfiguration at the same lever with @configuration adnotation onluy and put this bean inside
 }
 
 

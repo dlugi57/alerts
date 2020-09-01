@@ -44,9 +44,14 @@ public class DataServiceImpl implements DataService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //TODO for persons add medical records corespondant merge
 
-
+        for (Person person : dataAlert.getPersons()){
+            for (MedicalRecord medicalRecord : dataAlert.getMedicalrecords()){
+                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())){
+                    person.setMedicalRecord(medicalRecord);
+                }
+            }
+        }
     }
 
     @Override

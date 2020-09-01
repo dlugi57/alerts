@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class MedicalRecord {
 //"firstName":"John", "lastName":"Boyd", "birthdate":"03/06/1984", "medications":["aznol:350mg", "hydrapermazol:100mg"], "allergies":["nillacilan"]
@@ -74,6 +75,24 @@ public class MedicalRecord {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MedicalRecord that = (MedicalRecord) o;
+        return Objects.equals(dateTimeFormatter, that.dateTimeFormatter) &&
+                firstName.equals(that.firstName) &&
+                lastName.equals(that.lastName) &&
+                Objects.equals(birthdate, that.birthdate) &&
+                Objects.equals(medications, that.medications) &&
+                Objects.equals(allergies, that.allergies);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(dateTimeFormatter, firstName, lastName, birthdate, medications, allergies);
     }
 
     @Override

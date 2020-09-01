@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Email;
+import java.util.Objects;
 
 
 public class Person {
@@ -12,6 +13,8 @@ public class Person {
     //"firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com"
 
     private int id;
+    private static int personIdCounter = 0;
+
 
     @NotBlank(message = "Please enter the title")
     private String firstName;
@@ -44,7 +47,10 @@ public class Person {
         this.medicalRecord = medicalRecord;
     }
 
+
+
     public Person() {
+        this.id= personIdCounter++;
     }
 
     public int getId() {
@@ -117,6 +123,27 @@ public class Person {
 
     public void setMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id &&
+                firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName) &&
+                Objects.equals(address, person.address) &&
+                Objects.equals(city, person.city) &&
+                Objects.equals(zip, person.zip) &&
+                Objects.equals(phone, person.phone) &&
+                Objects.equals(email, person.email) &&
+                Objects.equals(medicalRecord, person.medicalRecord);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, city, zip, phone, email, medicalRecord);
     }
 
     @Override

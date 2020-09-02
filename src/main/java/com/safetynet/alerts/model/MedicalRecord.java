@@ -1,5 +1,7 @@
 package com.safetynet.alerts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -11,8 +13,11 @@ public class MedicalRecord {
     //private int id;??
 
 
-     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+
     private String firstName;
+
 
     private String lastName;
 
@@ -21,7 +26,6 @@ public class MedicalRecord {
     private List<String> medications;
 
     private List<String> allergies;
-
 
     public MedicalRecord(String firstName, String lastName, final String pBirthdate, List<String> medications, List<String> allergies) {
         this.firstName = firstName;

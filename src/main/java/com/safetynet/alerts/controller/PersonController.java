@@ -15,8 +15,6 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-
-
     @GetMapping(value = "Test")
     public String test() {
         return "Ty chuju jebany";
@@ -24,7 +22,6 @@ public class PersonController {
 
     @GetMapping(value = "personById")
     public Person getPersonById(@RequestParam(required = true) Integer id) {
-        System.out.println(id);
         return personService.getPersonById(id);
     }
 

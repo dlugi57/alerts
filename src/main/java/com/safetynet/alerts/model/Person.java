@@ -1,5 +1,6 @@
 package com.safetynet.alerts.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
@@ -34,6 +35,7 @@ public class Person {
     @Email(message = "Email should be valid")
     private String email;
 
+    @JsonIgnoreProperties(value = { "firstName","lastName" })
     private MedicalRecord medicalRecord;
 
     public Person(String firstName, String lastName, String address, String city, String zip, String phone, String email, MedicalRecord medicalRecord) {

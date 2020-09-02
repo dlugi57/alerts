@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Component // or service
 public class PersonDaoImpl implements PersonDao {
 
     @Autowired
@@ -16,10 +16,11 @@ public class PersonDaoImpl implements PersonDao {
 
     private List<Person> personList;
 
-    // TODO: 01/09/2020 it not works
+    // TODO: 01/09/2020 it not work
 /*   public PersonDaoImpl() {
         personList = dataService.getDataAlert().getPersons();
     }*/
+
 
 
     @Override

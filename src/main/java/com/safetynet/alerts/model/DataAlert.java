@@ -42,4 +42,6 @@ public class DataAlert {
     public void setMedicalrecords(List<MedicalRecord> medicalrecords) {
         this.medicalrecords = medicalrecords;
     }
+
+
 }

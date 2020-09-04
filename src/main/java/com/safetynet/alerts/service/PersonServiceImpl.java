@@ -22,4 +22,54 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> getPersons(){
         return personDao.getPersons();
     }
+
+    @Override
+    public boolean addPerson(Person person) {
+
+
+// TODO: 04/09/2020 how to find by contains in list without id
+
+/*        if (!personDao.getPersons().contains(person)) {
+            personDao.addPerson(person);
+            return true;
+        }
+
+        return false;*/
+
+
+        Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        if (checkPerson == null){
+            personDao.addPerson(person);
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public Person getPersonByFirstNameAndLastName(String firstName, String lastName) {
+        return personDao.getByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @Override
+    public boolean updatePerson(Person person) {
+        Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        if (checkPerson != null){
+            personDao.updatePerson(person, null);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean deletePerson(Person person) {
+        Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+        if (checkPerson != null){
+            personDao.deletePerson(person);
+            return true;
+        }
+
+        return false;
+    }
 }

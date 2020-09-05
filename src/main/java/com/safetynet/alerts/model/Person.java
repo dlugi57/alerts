@@ -13,14 +13,16 @@ public class Person {
 
     //"firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com"
 
+    //set safety for invalid chaines
+    // TODO: 05/09/2020 do i need id
     private int id;
     private static int personIdCounter = 0;
 
 
-    @NotBlank(message = "Please enter the title")
+    @NotBlank(message = "Please enter the first name")
     private String firstName;
 
-    @NotBlank(message = "Please enter the title")
+    @NotBlank(message = "Please enter the last name")
     private String lastName;
 
     @Length(min = 3, message = "Please provide correct address")

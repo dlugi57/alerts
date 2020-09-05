@@ -16,7 +16,7 @@ public interface PersonDao {
 
     boolean addPerson(Person person);
 
-    boolean updatePerson(Person person, MedicalRecord medicalRecord);
+    boolean updatePerson(Person person);
 
     boolean deletePerson(Person person);
 }

@@ -2,6 +2,7 @@ package com.safetynet.alerts.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -15,10 +16,10 @@ public class MedicalRecord {
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
-
+    @NotBlank(message = "Please enter the first name")
     private String firstName;
 
-
+    @NotBlank(message = "Please enter the last name")
     private String lastName;
 
     private LocalDate birthdate;

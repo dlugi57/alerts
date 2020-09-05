@@ -64,18 +64,21 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public boolean updatePerson(Person person, MedicalRecord medicalRecord) {
+    public boolean updatePerson(Person person) {
         personList = dataService.getDataAlert().getPersons();
         //Person person;
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())
                     && existingPerson.getLastName().equalsIgnoreCase(person.getLastName())) {
-                if (medicalRecord != null)existingPerson.setMedicalRecord(medicalRecord);
+                //if (medicalRecord != null)existingPerson.setMedicalRecord(medicalRecord);
                 if (person.getAddress() != null)existingPerson.setAddress(person.getAddress());
                 if (person.getCity() != null)existingPerson.setCity(person.getCity());
                 if (person.getEmail() != null)existingPerson.setEmail(person.getEmail());
                 if (person.getPhone() != null)existingPerson.setPhone(person.getPhone());
                 if (person.getZip() != null)existingPerson.setZip(person.getZip());
+
+
+                //if (person.getMedicalRecord() != null)existingPerson.setMedicalRecord(person.getMedicalRecord());
                 return true;
             }
 

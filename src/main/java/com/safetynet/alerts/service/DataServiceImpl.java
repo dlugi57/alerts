@@ -51,6 +51,8 @@ public class DataServiceImpl implements DataService {
                     person.setMedicalRecord(medicalRecord);
                 }
             }
+
+            // TODO: 05/09/2020 mayby is good to add firestation to the person
         }
     }
 

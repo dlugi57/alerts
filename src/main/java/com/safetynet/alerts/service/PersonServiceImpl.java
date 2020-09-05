@@ -55,7 +55,7 @@ public class PersonServiceImpl implements PersonService {
     public boolean updatePerson(Person person) {
         Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
         if (checkPerson != null){
-            personDao.updatePerson(person, null);
+            personDao.updatePerson(person);
             return true;
         }
 

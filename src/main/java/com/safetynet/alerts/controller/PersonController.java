@@ -40,19 +40,18 @@ public class PersonController {
     public Person getPersonByFirstNameAndLastName(@RequestParam(required = true) String firstName, String lastName) throws ResponseStatusException {
 
         Person person = personService.getPersonByFirstNameAndLastName(firstName, lastName);
-        if (person == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person named  " + firstName + " " +lastName +" don't exist");
+        if (person == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person named  " + firstName + " " + lastName + " don't exist");
 
         return person;
     }
-
-
 
 
     @PostMapping(value = "/person")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> addPerson(@Valid @RequestBody Person person) {
 
-        if (!personService.addPerson(person)){
+        if (!personService.addPerson(person)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person already exist");
         }
 
@@ -60,12 +59,12 @@ public class PersonController {
         return ResponseEntity.created(location).build();
     }
 
-    // TODO: 04/09/2020 update only for data of person? not for name and last name?
+
     @PutMapping(value = "/person")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> updatePerson(@Valid @RequestBody Person person) {
 
-        if (!personService.updatePerson(person)){
+        if (!personService.updatePerson(person)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");
         }
 
@@ -76,22 +75,19 @@ public class PersonController {
     @DeleteMapping(value = "/person")
     @ResponseStatus(HttpStatus.OK)
     public void deletePerson(@Valid @RequestBody Person person) {
-
-        if (!personService.deletePerson(person)){
+// TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
+//unique???
+        if (!personService.deletePerson(person)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");
         }
 
     }
 
 
-
-
-
     @GetMapping(value = "persons")
-    public List<Person>  getPersons() {
+    public List<Person> getPersons() {
         return personService.getPersons();
     }
-
 
 
 }

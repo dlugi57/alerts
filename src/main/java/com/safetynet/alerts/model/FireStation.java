@@ -1,18 +1,18 @@
 package com.safetynet.alerts.model;
 
-public class Firestation {
+public class FireStation {
 
     //"address":"1509 Culver St", "station":"3"
     private String address;
 
     private int station;
 
-    public Firestation(String address, int station) {
+    public FireStation(String address, int station) {
         this.address = address;
         this.station = station;
     }
 
-    public Firestation() {
+    public FireStation() {
     }
 
     public String getAddress() {
@@ -33,7 +33,7 @@ public class Firestation {
 
     @Override
     public String toString() {
-        return "Firestation{" +
+        return "FireStation{" +
                 "address='" + address + '\'' +
                 ", station=" + station +
                 '}';

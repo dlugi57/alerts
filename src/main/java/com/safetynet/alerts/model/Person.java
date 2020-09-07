@@ -51,8 +51,6 @@ public class Person {
         this.medicalRecord = medicalRecord;
     }
 
-
-
     public Person() {
         this.id= personIdCounter++;
     }

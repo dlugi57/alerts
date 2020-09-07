@@ -24,7 +24,7 @@ public class MedicalRecordController {
     @Autowired
     MedicalRecordService medicalRecordService;
 
-    @GetMapping(value = "/medicalRecord")
+    @GetMapping(value = "/medicalrecord")
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(@RequestParam(required = true) String firstName, String lastName) throws ResponseStatusException {
 
         MedicalRecord medicalRecord = medicalRecordService.getMedicalRecordByFirstNameAndLastName(firstName, lastName);
@@ -34,7 +34,7 @@ public class MedicalRecordController {
         return medicalRecord;
     }
 
-    @PostMapping(value = "/medicalRecord")
+    @PostMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> addMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
 
@@ -53,7 +53,7 @@ public class MedicalRecordController {
 
 
 
-    @PutMapping(value = "/medicalRecord")
+    @PutMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> updateMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
 
@@ -66,7 +66,7 @@ public class MedicalRecordController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping(value = "/medicalRecord")
+    @DeleteMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
 // TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
@@ -77,7 +77,7 @@ public class MedicalRecordController {
 
     }
 
-    @GetMapping(value = "/medicalRecords")
+    @GetMapping(value = "/medicalrecords")
     public List<MedicalRecord> getMedicalRecords() {
         return medicalRecordService.getMedicalRecords();
     }

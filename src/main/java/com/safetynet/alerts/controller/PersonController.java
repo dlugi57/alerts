@@ -19,22 +19,18 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @GetMapping(value = "Test")
-    public String test() {
-        return "Ty chuju jebany";
-    }
-
     //get swagger to this
     //@ApiOperation(value= "Recupere un produit selon son ID")
- /*   @GetMapping(value = "person")
+    /*
+    @GetMapping(value = "person")
     public Person getPersonById(@RequestParam(required = true) Integer id) throws ResponseStatusException {
 
         Person person = personService.getPersonById(id);
         if (person == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Person with id " + id + " don't exist");
 
         return person;
-    }*/
-
+    }
+    */
 
     @GetMapping(value = "person")
     public Person getPersonByFirstNameAndLastName(@RequestParam(required = true) String firstName, String lastName) throws ResponseStatusException {
@@ -45,7 +41,6 @@ public class PersonController {
 
         return person;
     }
-
 
     @PostMapping(value = "/person")
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,7 +53,6 @@ public class PersonController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/").queryParam("firstName", person.getFirstName()).queryParam("lastName", person.getLastName()).build().toUri();
         return ResponseEntity.created(location).build();
     }
-
 
     @PutMapping(value = "/person")
     @ResponseStatus(HttpStatus.CREATED)
@@ -75,14 +69,12 @@ public class PersonController {
     @DeleteMapping(value = "/person")
     @ResponseStatus(HttpStatus.OK)
     public void deletePerson(@Valid @RequestBody Person person) {
-// TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
-//unique???
+    // TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
+    //unique???
         if (!personService.deletePerson(person)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");
         }
-
     }
-
 
     @GetMapping(value = "persons")
     public List<Person> getPersons() {

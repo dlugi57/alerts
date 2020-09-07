@@ -6,11 +6,11 @@ public class DataAlert {
 
     private List<Person> persons;
 
-    private List<Firestation> firestations;
+    private List<FireStation> firestations;
 
     private List<MedicalRecord> medicalrecords;
 
-    public DataAlert(List<Person> persons, List<Firestation> firestations, List<MedicalRecord> medicalrecords) {
+    public DataAlert(List<Person> persons, List<FireStation> firestations, List<MedicalRecord> medicalrecords) {
         this.persons = persons;
         this.firestations = firestations;
         this.medicalrecords = medicalrecords;
@@ -27,11 +27,11 @@ public class DataAlert {
         this.persons = persons;
     }
 
-    public List<Firestation> getFirestations() {
+    public List<FireStation> getFirestations() {
         return firestations;
     }
 
-    public void setFirestations(List<Firestation> firestations) {
+    public void setFirestations(List<FireStation> firestations) {
         this.firestations = firestations;
     }
 

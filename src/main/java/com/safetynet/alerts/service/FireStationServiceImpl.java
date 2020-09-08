@@ -60,7 +60,7 @@ public class FireStationServiceImpl implements FireStationService {
     @Override
     public boolean deleteFireStation(FireStation fireStation) {
 
-        // TODO: 08/09/2020 make three checks and then 3 delets
+        // TODO: 08/09/2020 make three checks and then 3 deletes
 
 
 /*        Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());

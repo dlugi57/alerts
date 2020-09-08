@@ -57,7 +57,6 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     public boolean addMedicalRecord(MedicalRecord medicalRecord) {
 
 
-// TODO: 04/09/2020 how to find by contains in list without id
 
 /*        if (!personDao.getPersons().contains(person)) {
             personDao.addPerson(person);

@@ -69,7 +69,6 @@ public class PersonController {
     @DeleteMapping(value = "/person")
     @ResponseStatus(HttpStatus.OK)
     public void deletePerson(@Valid @RequestBody Person person) {
-    // TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
     //unique???
         if (!personService.deletePerson(person)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");

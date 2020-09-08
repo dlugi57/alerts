@@ -27,7 +27,6 @@ public class PersonServiceImpl implements PersonService {
     public boolean addPerson(Person person) {
 
 
-// TODO: 04/09/2020 how to find by contains in list without id
 
 /*        if (!personDao.getPersons().contains(person)) {
             personDao.addPerson(person);

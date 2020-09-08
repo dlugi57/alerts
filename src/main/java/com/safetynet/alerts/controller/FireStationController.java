@@ -68,7 +68,7 @@ public class FireStationController {
 
     @PutMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.CREATED)
-    // TODO: 07/09/2020 how to do this in proper way
+    // TODO: 07/09/2020 i can add new request parameter
     public ResponseEntity<Void> updateFireStation( @RequestBody ObjectNode objectNode) {
 
         FireStation fireStation = new FireStation();

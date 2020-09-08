@@ -1,6 +1,5 @@
 package com.safetynet.alerts.dao;
 
-import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,24 +7,24 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-// TODO: 07/09/2020
-@Component // or service
+@Component
 public class PersonDaoImpl implements PersonDao {
 
-    @Autowired
-    private DataService dataService;
+/*    @Autowired
+    private DataService dataService;*/
 
     private List<Person> personList;
 
     // TODO: 01/09/2020 it not work
-/*   public PersonDaoImpl() {
+    @Autowired
+   public PersonDaoImpl(DataService dataService) {
         personList = dataService.getDataAlert().getPersons();
-    }*/
+    }
 
 
     @Override
     public Person getPersonById(int id) {
-        personList = dataService.getDataAlert().getPersons();
+        //personList = dataService.getDataAlert().getPersons();
         //Person person;
         for (Person person : personList) {
             if (person.getId() == id) {
@@ -39,12 +38,13 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> getPersons() {
-        return personList = dataService.getDataAlert().getPersons();
+  //      return personList = dataService.getDataAlert().getPersons();
+        return null;
     }
 
     @Override
     public Person getByFirstNameAndLastName(String firstName, String lastName) {
-        personList = dataService.getDataAlert().getPersons();
+       // personList = dataService.getDataAlert().getPersons();
         //Person person;
         for (Person person : personList) {
             if (person.getFirstName().equalsIgnoreCase(firstName) && person.getLastName().equalsIgnoreCase(lastName)) {
@@ -66,7 +66,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean updatePerson(Person person) {
-        personList = dataService.getDataAlert().getPersons();
+       // personList = dataService.getDataAlert().getPersons();
         //Person person;
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())
@@ -89,7 +89,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean deletePerson(Person person) {
-        personList = dataService.getDataAlert().getPersons();
+        //personList = dataService.getDataAlert().getPersons();
         //Person person;
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())

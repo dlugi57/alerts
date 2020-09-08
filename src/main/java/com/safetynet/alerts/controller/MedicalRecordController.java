@@ -69,7 +69,6 @@ public class MedicalRecordController {
     @DeleteMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
-// TODO: 05/09/2020 utilisez une combinaison de prénom et de nom comme identificateur
 //unique???
         if (!medicalRecordService.deleteMedicalRecord(medicalRecord)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This medical record don't exist");

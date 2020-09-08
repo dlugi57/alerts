@@ -39,7 +39,6 @@ public class MedicalRecord {
     public MedicalRecord() {
     }
 
-    //todo convert string to date
     public LocalDate getBirthdate() {
         return birthdate;
     }

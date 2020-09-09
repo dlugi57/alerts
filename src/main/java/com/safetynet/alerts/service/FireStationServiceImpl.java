@@ -26,8 +26,8 @@ public class FireStationServiceImpl implements FireStationService {
     }
 
     @Override
-    public List<FireStation> getFireStationsByStationAddress(String address) {
-        return fireStationDao.getFireStationsByStationAddress(address);
+    public FireStation getFireStationByStationAddress(String address) {
+        return fireStationDao.getFireStationByStationAddress(address);
     }
 
     @Override
@@ -47,11 +47,10 @@ public class FireStationServiceImpl implements FireStationService {
     }
 
     @Override
-    public boolean updateFireStation(FireStation fireStation, Integer newStation) {
-        FireStation checkFireStation = fireStationDao.getFireStation(fireStation.getStation(), fireStation.getAddress());
+    public boolean updateFireStation(FireStation fireStation) {
+        FireStation checkFireStation = fireStationDao.getFireStationByStationAddress(fireStation.getAddress());
         if (checkFireStation != null){
-
-            fireStationDao.updateFireStation(fireStation, newStation);
+            fireStationDao.updateFireStation(fireStation);
             return true;
         }
         return false;

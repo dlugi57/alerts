@@ -11,16 +11,20 @@ import java.util.List;
 @Component // or service
 public class FireStationDaoImpl implements FireStationDao {
 
-    @Autowired
-    private DataService dataService;
+/*    @Autowired
+    private DataService dataService;*/
 
     private List<FireStation> fireStations;
 
+    @Autowired
+    public FireStationDaoImpl(DataService dataService) {
+        fireStations = dataService.getDataAlert().getFirestations();
+    }
 
     @Override
     public List<FireStation> getFireStationsByStationId(Integer id) {
 
-        fireStations = dataService.getDataAlert().getFirestations();
+       // fireStations = dataService.getDataAlert().getFirestations();
 
         List<FireStation> filteredFireStations =  new ArrayList<FireStation>();
         for (FireStation fireStation : fireStations) {
@@ -34,26 +38,24 @@ public class FireStationDaoImpl implements FireStationDao {
     }
 
     @Override
-    public List<FireStation> getFireStationsByStationAddress(String address) {
+    public FireStation getFireStationByStationAddress(String address) {
 
-        fireStations = dataService.getDataAlert().getFirestations();
+      //  fireStations = dataService.getDataAlert().getFirestations();
 
-        List<FireStation> filteredFireStations =  new ArrayList<FireStation>();
         for (FireStation fireStation : fireStations) {
             if (fireStation.getAddress().replaceAll("\\s+","").equalsIgnoreCase(address.replaceAll("\\s+",""))) {
-                filteredFireStations.add(fireStation);
+                 return fireStation;
             }
         }
-        if (filteredFireStations.isEmpty()){
+
             return null;
-        }
-        return filteredFireStations;
+
+
     }
 
     @Override
     public FireStation getFireStation(Integer station, String address) {
-        fireStations = dataService.getDataAlert().getFirestations();
-        // TODO: 07/09/2020 this i possible to check if list contains object ? if (fireStations.contains(fireStation)){
+       // fireStations = dataService.getDataAlert().getFirestations();
 
         for (FireStation fireStation : fireStations){
             if (fireStation.getAddress().replaceAll("\\s+","")
@@ -75,15 +77,15 @@ public class FireStationDaoImpl implements FireStationDao {
     }
 
     @Override
-    public boolean updateFireStation(FireStation fireStation, Integer newStation) {
-        fireStations = dataService.getDataAlert().getFirestations();
+    public boolean updateFireStation(FireStation fireStation) {
+       // fireStations = dataService.getDataAlert().getFirestations();
         //Person person;
-        for (FireStation existingFireStations : fireStations) {
-            if (existingFireStations.getAddress().replaceAll("\\s+","")
+        for (FireStation existingFireStation : fireStations) {
+            if (existingFireStation.getAddress().replaceAll("\\s+","")
                     .equalsIgnoreCase(fireStation.getAddress().replaceAll("\\s+",""))
-                    && existingFireStations.getStation() == fireStation.getStation()) {
+                    ) {
 
-                existingFireStations.setStation(newStation);
+                existingFireStation.setStation(fireStation.getStation());
 
                 return true;
             }
@@ -94,7 +96,7 @@ public class FireStationDaoImpl implements FireStationDao {
 
     @Override
     public List<FireStation> getFireStations() {
-        return dataService.getDataAlert().getFirestations();
+        return fireStations;
     }
 
 

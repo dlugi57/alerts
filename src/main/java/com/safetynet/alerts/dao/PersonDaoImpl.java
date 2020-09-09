@@ -15,7 +15,6 @@ public class PersonDaoImpl implements PersonDao {
 
     private List<Person> personList;
 
-    // TODO: 01/09/2020 it not work
     @Autowired
    public PersonDaoImpl(DataService dataService) {
         personList = dataService.getDataAlert().getPersons();

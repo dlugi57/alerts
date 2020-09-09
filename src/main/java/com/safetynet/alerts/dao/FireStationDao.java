@@ -9,11 +9,11 @@ public interface FireStationDao {
 
     List<FireStation> getFireStations();
 
-    List<FireStation> getFireStationsByStationAddress(String address);
+    FireStation getFireStationByStationAddress(String address);
 
     FireStation getFireStation(Integer station, String address);
 
     boolean addFireStation(FireStation fireStation);
 
-    boolean updateFireStation(FireStation fireStation, Integer newStation);
+    boolean updateFireStation(FireStation fireStation);
 }

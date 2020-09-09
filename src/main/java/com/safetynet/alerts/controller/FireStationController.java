@@ -32,17 +32,17 @@ public class FireStationController {
         return fireStations;
     }
 
-    @GetMapping(value = "firestations/{address}")
-    public List<FireStation>  getFireStationsByStationAddress(@PathVariable String address) throws ResponseStatusException {
+    @GetMapping(value = "firestation")
+    public FireStation getFireStationByStationAddress(@RequestParam(required = true) String address) throws ResponseStatusException {
 
-        List<FireStation> fireStations = fireStationService.getFireStationsByStationAddress(address);
-        if (fireStations == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this address " + address + " don't exist");
+        FireStation fireStation = fireStationService.getFireStationByStationAddress(address);
+        if (fireStation == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this address " + address + " don't exist");
 
-        return fireStations;
+        return fireStation;
     }
 
-    @GetMapping(value = "firestation")
+/*    @GetMapping(value = "firestation")
     public FireStation getFireStation(@RequestParam(required = true) Integer station, String address) throws ResponseStatusException {
 
         FireStation fireStation = fireStationService.getFireStation(station, address);
@@ -50,7 +50,7 @@ public class FireStationController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station No " + station + " and with address " + address + " don't exist");
 
         return fireStation;
-    }
+    }*/
 
     @PostMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,28 +61,23 @@ public class FireStationController {
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                .queryParam("station", fireStation.getStation())
+                //.queryParam("station", fireStation.getStation())
                 .queryParam("address", fireStation.getAddress()).build().toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.CREATED)
-    // TODO: 07/09/2020 i can add new request parameter
-    public ResponseEntity<Void> updateFireStation( @RequestBody ObjectNode objectNode) {
+    public ResponseEntity<Void> updateFireStation(@Valid @RequestBody FireStation fireStation) {
 
-        FireStation fireStation = new FireStation();
 
-        fireStation.setAddress(objectNode.get("address").asText());
-        fireStation.setStation(objectNode.get("station").asInt());
-        Integer newStation = objectNode.get("newStation").asInt();
 
-        if (!fireStationService.updateFireStation(fireStation, newStation)) {
+        if (!fireStationService.updateFireStation(fireStation)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This fire station don't exist");
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                .queryParam("station", newStation)
+                //.queryParam("station", newStation)
                 .queryParam("address", fireStation.getAddress()).build().toUri();
         return ResponseEntity.created(location).build();
     }
@@ -90,7 +85,6 @@ public class FireStationController {
 
     @DeleteMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.OK)
-    // TODO: 07/09/2020 how to do this in proper way
     public void deleteFireStation( @RequestBody FireStation fireStation) {
 
         if (!fireStationService.deleteFireStation(fireStation)) {

@@ -9,13 +9,13 @@ public interface FireStationService {
 
     List<FireStation> getFireStations();
 
-    List<FireStation> getFireStationsByStationAddress(String address);
+    FireStation getFireStationByStationAddress(String address);
 
     boolean addFireStation(FireStation fireStation);
 
     FireStation getFireStation(Integer station, String address);
 
-    boolean updateFireStation(FireStation fireStation, Integer newStation);
+    boolean updateFireStation(FireStation fireStation);
 
     boolean deleteFireStation(FireStation fireStation);
 }

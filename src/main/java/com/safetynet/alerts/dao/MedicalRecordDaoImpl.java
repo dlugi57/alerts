@@ -11,14 +11,19 @@ import java.util.List;
 @Component
 public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
-    @Autowired
-    private DataService dataService;
+/*    @Autowired
+    private DataService dataService;*/
 
     private List<MedicalRecord> medicalRecordsList;
 
+    @Autowired
+    public MedicalRecordDaoImpl(DataService dataService) {
+        medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
+    }
+
     @Override
     public List<MedicalRecord> getMedicalRecords() {
-        return medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
+        return medicalRecordsList;
     }
 
 
@@ -29,7 +34,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     @Override
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName) {
-        medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
+        //medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
         //Person person;
         for (MedicalRecord medicalRecord : medicalRecordsList) {
             if (medicalRecord.getFirstName().equalsIgnoreCase(firstName) && medicalRecord.getLastName().equalsIgnoreCase(lastName)) {
@@ -60,7 +65,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     @Override
     public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
+       // medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
         //Person person;
         for (MedicalRecord existingMedicalRecord : medicalRecordsList) {
             if (existingMedicalRecord.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
@@ -79,11 +84,10 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     @Override
     public boolean deleteMedicalRecord(MedicalRecord medicalRecord) {
-        medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
+       // medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
         for (MedicalRecord existingMedicalRecord : medicalRecordsList) {
             if (existingMedicalRecord.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
                     && existingMedicalRecord.getLastName().equalsIgnoreCase(medicalRecord.getLastName())) {
-                // TODO: 05/09/2020 if that is a correct way to remove ?
                 medicalRecordsList.remove(existingMedicalRecord);
                 return true;
             }

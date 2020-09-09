@@ -11,9 +11,6 @@ import java.util.List;
 @Component
 public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
-/*    @Autowired
-    private DataService dataService;*/
-
     private List<MedicalRecord> medicalRecordsList;
 
     @Autowired
@@ -27,15 +24,8 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
     }
 
 
-
-
-
-
-
     @Override
     public MedicalRecord getMedicalRecordByFirstNameAndLastName(String firstName, String lastName) {
-        //medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
-        //Person person;
         for (MedicalRecord medicalRecord : medicalRecordsList) {
             if (medicalRecord.getFirstName().equalsIgnoreCase(firstName) && medicalRecord.getLastName().equalsIgnoreCase(lastName)) {
                 return medicalRecord;
@@ -47,8 +37,6 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
     }
 
 
-
-
     @Override
     public boolean addMedicalRecord(MedicalRecord medicalRecord) {
 
@@ -58,22 +46,18 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
     }
 
 
-
-
-
-
-
     @Override
     public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
-       // medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
-        //Person person;
         for (MedicalRecord existingMedicalRecord : medicalRecordsList) {
             if (existingMedicalRecord.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
                     && existingMedicalRecord.getLastName().equalsIgnoreCase(medicalRecord.getLastName())) {
 
-                if (medicalRecord.getBirthdate() != null)existingMedicalRecord.setBirthdate(medicalRecord.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-                if (medicalRecord.getAllergies() != null)existingMedicalRecord.setAllergies(medicalRecord.getAllergies());
-                if (medicalRecord.getMedications() != null)existingMedicalRecord.setMedications(medicalRecord.getMedications());
+                if (medicalRecord.getBirthdate() != null)
+                    existingMedicalRecord.setBirthdate(medicalRecord.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                if (medicalRecord.getAllergies() != null)
+                    existingMedicalRecord.setAllergies(medicalRecord.getAllergies());
+                if (medicalRecord.getMedications() != null)
+                    existingMedicalRecord.setMedications(medicalRecord.getMedications());
 
                 return true;
             }
@@ -84,7 +68,6 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     @Override
     public boolean deleteMedicalRecord(MedicalRecord medicalRecord) {
-       // medicalRecordsList = dataService.getDataAlert().getMedicalrecords();
         for (MedicalRecord existingMedicalRecord : medicalRecordsList) {
             if (existingMedicalRecord.getFirstName().equalsIgnoreCase(medicalRecord.getFirstName())
                     && existingMedicalRecord.getLastName().equalsIgnoreCase(medicalRecord.getLastName())) {
@@ -95,8 +78,6 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
         }
         return false;
     }
-
-
 
 
 }

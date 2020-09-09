@@ -3,9 +3,6 @@ package com.safetynet.alerts.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.DataAlert;
 import com.safetynet.alerts.model.FireStation;
-import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.model.Person;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -20,24 +17,8 @@ public class DataServiceImpl implements DataService {
 
     DataAlert dataAlert;
 
-/*    @Override
-    public void init() {
-
-
-
-        for (Person person : dataAlert.getPersons()){
-            for (MedicalRecord medicalRecord : dataAlert.getMedicalrecords()){
-                if (person.getFirstName().equals(medicalRecord.getFirstName()) && person.getLastName().equals(medicalRecord.getLastName())){
-                    person.setMedicalRecord(medicalRecord);
-                }
-            }
-
-
-        }
-    }*/
-
     @Override
-    public DataAlert getDataAlert(){
+    public DataAlert getDataAlert() {
         return this.dataAlert;
     }
 
@@ -56,21 +37,13 @@ public class DataServiceImpl implements DataService {
             List<FireStation> result = new ArrayList<FireStation>();
             Set<String> titles = new HashSet<String>();
 
-            for (FireStation fireStation : dataAlert.getFirestations()){
-                if(titles.add(fireStation.getAddress())){
-                    result.add( fireStation );
+            for (FireStation fireStation : dataAlert.getFirestations()) {
+                if (titles.add(fireStation.getAddress())) {
+                    result.add(fireStation);
                 }
             }
 
             dataAlert.setFirestations(result);
-
-
-
-
-/*            for (FireStation fireStation : dataAlert.getFirestations()){
-                for (FireStation secondFireStation : dataAlert.getFirestations()){
-                }
-            }*/
 
 
         } catch (Exception e) {

@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MedicalRecord {
-//"firstName":"John", "lastName":"Boyd", "birthdate":"03/06/1984", "medications":["aznol:350mg", "hydrapermazol:100mg"], "allergies":["nillacilan"]
-    //private int id;??
-
+    //"firstName":"John", "lastName":"Boyd", "birthdate":"03/06/1984", "medications":["aznol:350mg", "hydrapermazol:100mg"], "allergies":["nillacilan"]
 
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
@@ -46,7 +44,6 @@ public class MedicalRecord {
     public void setBirthdate(String pBirthdate) {
 
         this.birthdate = LocalDate.parse(pBirthdate, dateTimeFormatter);
-        //this.birthdate = birthdate;
     }
 
     public List<String> getMedications() {

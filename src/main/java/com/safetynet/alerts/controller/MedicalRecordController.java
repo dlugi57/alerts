@@ -2,9 +2,7 @@ package com.safetynet.alerts.controller;
 
 
 import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.MedicalRecordService;
-import com.safetynet.alerts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +16,6 @@ import java.util.List;
 
 @RestController
 public class MedicalRecordController {
-
 
 
     @Autowired
@@ -48,11 +45,6 @@ public class MedicalRecordController {
     }
 
 
-
-
-
-
-
     @PutMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> updateMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
@@ -69,7 +61,6 @@ public class MedicalRecordController {
     @DeleteMapping(value = "/medicalrecord")
     @ResponseStatus(HttpStatus.OK)
     public void deleteMedicalRecord(@Valid @RequestBody MedicalRecord medicalRecord) {
-//unique???
         if (!medicalRecordService.deleteMedicalRecord(medicalRecord)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This medical record don't exist");
         }
@@ -80,8 +71,6 @@ public class MedicalRecordController {
     public List<MedicalRecord> getMedicalRecords() {
         return medicalRecordService.getMedicalRecords();
     }
-
-
 
 
 }

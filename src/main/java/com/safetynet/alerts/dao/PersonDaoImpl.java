@@ -10,9 +10,6 @@ import java.util.List;
 @Component
 public class PersonDaoImpl implements PersonDao {
 
-/*    @Autowired
-    private DataService dataService;*/
-
     private List<Person> personList;
 
     @Autowired
@@ -22,29 +19,12 @@ public class PersonDaoImpl implements PersonDao {
 
 
     @Override
-    public Person getPersonById(int id) {
-        //personList = dataService.getDataAlert().getPersons();
-        //Person person;
-        for (Person person : personList) {
-            if (person.getId() == id) {
-                return person;
-            }
-
-        }
-
-        return null;
-    }
-
-    @Override
     public List<Person> getPersons() {
-  //      return personList = dataService.getDataAlert().getPersons();
         return null;
     }
 
     @Override
     public Person getByFirstNameAndLastName(String firstName, String lastName) {
-       // personList = dataService.getDataAlert().getPersons();
-        //Person person;
         for (Person person : personList) {
             if (person.getFirstName().equalsIgnoreCase(firstName) && person.getLastName().equalsIgnoreCase(lastName)) {
                 return person;
@@ -65,20 +45,14 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean updatePerson(Person person) {
-       // personList = dataService.getDataAlert().getPersons();
-        //Person person;
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())
                     && existingPerson.getLastName().equalsIgnoreCase(person.getLastName())) {
-                //if (medicalRecord != null)existingPerson.setMedicalRecord(medicalRecord);
                 if (person.getAddress() != null)existingPerson.setAddress(person.getAddress());
                 if (person.getCity() != null)existingPerson.setCity(person.getCity());
                 if (person.getEmail() != null)existingPerson.setEmail(person.getEmail());
                 if (person.getPhone() != null)existingPerson.setPhone(person.getPhone());
                 if (person.getZip() != null)existingPerson.setZip(person.getZip());
-
-
-                //if (person.getMedicalRecord() != null)existingPerson.setMedicalRecord(person.getMedicalRecord());
                 return true;
             }
 
@@ -88,8 +62,6 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean deletePerson(Person person) {
-        //personList = dataService.getDataAlert().getPersons();
-        //Person person;
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())
                     && existingPerson.getLastName().equalsIgnoreCase(person.getLastName())) {

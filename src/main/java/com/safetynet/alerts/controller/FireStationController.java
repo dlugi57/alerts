@@ -1,10 +1,7 @@
 package com.safetynet.alerts.controller;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.safetynet.alerts.model.FireStation;
-import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.FireStationService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +20,7 @@ public class FireStationController {
     FireStationService fireStationService;
 
     @GetMapping(value = "firestations/{station}")
-    public List<FireStation>  getFireStationsByStationId(@PathVariable Integer station) throws ResponseStatusException {
+    public List<FireStation> getFireStationsByStationId(@PathVariable Integer station) throws ResponseStatusException {
 
         List<FireStation> fireStations = fireStationService.getFireStationsByStationId(station);
         if (fireStations == null)
@@ -33,7 +30,7 @@ public class FireStationController {
     }
 
     @GetMapping(value = "firestation")
-    public FireStation getFireStationByStationAddress(@RequestParam(required = true) String address) throws ResponseStatusException {
+    public FireStation getFireStationByStationAddress(@RequestParam() String address) throws ResponseStatusException {
 
         FireStation fireStation = fireStationService.getFireStationByStationAddress(address);
         if (fireStation == null)
@@ -41,16 +38,6 @@ public class FireStationController {
 
         return fireStation;
     }
-
-/*    @GetMapping(value = "firestation")
-    public FireStation getFireStation(@RequestParam(required = true) Integer station, String address) throws ResponseStatusException {
-
-        FireStation fireStation = fireStationService.getFireStation(station, address);
-        if (fireStation == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station No " + station + " and with address " + address + " don't exist");
-
-        return fireStation;
-    }*/
 
     @PostMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.CREATED)
@@ -61,7 +48,6 @@ public class FireStationController {
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                //.queryParam("station", fireStation.getStation())
                 .queryParam("address", fireStation.getAddress()).build().toUri();
         return ResponseEntity.created(location).build();
     }
@@ -71,13 +57,11 @@ public class FireStationController {
     public ResponseEntity<Void> updateFireStation(@Valid @RequestBody FireStation fireStation) {
 
 
-
         if (!fireStationService.updateFireStation(fireStation)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This fire station don't exist");
         }
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                //.queryParam("station", newStation)
                 .queryParam("address", fireStation.getAddress()).build().toUri();
         return ResponseEntity.created(location).build();
     }
@@ -85,7 +69,7 @@ public class FireStationController {
 
     @DeleteMapping(value = "/firestation")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteFireStation( @RequestBody FireStation fireStation) {
+    public void deleteFireStation(@RequestBody FireStation fireStation) {
 
         if (!fireStationService.deleteFireStation(fireStation)) {
             throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");
@@ -93,7 +77,7 @@ public class FireStationController {
     }
 
     @GetMapping(value = "/firestations")
-    public List<FireStation>  getFireStations() {
+    public List<FireStation> getFireStations() {
 
         return fireStationService.getFireStations();
     }

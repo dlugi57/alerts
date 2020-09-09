@@ -1,4 +1,5 @@
 package com.safetynet.alerts.service;
+
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MedicalRecordServiceImpl implements MedicalRecordService{
+public class MedicalRecordServiceImpl implements MedicalRecordService {
 
     @Autowired
     MedicalRecordDao medicalRecordDao;
@@ -35,7 +36,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
         return false;
     }*/
 
- //   @Override
+    //   @Override
 /*    public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
         Person person = personDao.getByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
         if (person != null && person.getMedicalRecord() != null ){
@@ -47,27 +48,16 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     }*/
 
 
-
     @Override
-    public List<MedicalRecord> getMedicalRecords(){
+    public List<MedicalRecord> getMedicalRecords() {
         return medicalRecordDao.getMedicalRecords();
     }
 
     @Override
     public boolean addMedicalRecord(MedicalRecord medicalRecord) {
 
-
-
-/*        if (!personDao.getPersons().contains(person)) {
-            personDao.addPerson(person);
-            return true;
-        }
-
-        return false;*/
-
-
         MedicalRecord checkMedicalRecord = medicalRecordDao.getMedicalRecordByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
-        if (checkMedicalRecord == null){
+        if (checkMedicalRecord == null) {
             medicalRecordDao.addMedicalRecord(medicalRecord);
             return true;
         }
@@ -83,7 +73,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     @Override
     public boolean updateMedicalRecord(MedicalRecord medicalRecord) {
         MedicalRecord checkMedicalRecord = medicalRecordDao.getMedicalRecordByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
-        if (checkMedicalRecord != null){
+        if (checkMedicalRecord != null) {
             medicalRecordDao.updateMedicalRecord(medicalRecord);
             return true;
         }
@@ -94,21 +84,13 @@ public class MedicalRecordServiceImpl implements MedicalRecordService{
     @Override
     public boolean deleteMedicalRecord(MedicalRecord medicalRecord) {
         MedicalRecord checkMedicalRecord = medicalRecordDao.getMedicalRecordByFirstNameAndLastName(medicalRecord.getFirstName(), medicalRecord.getLastName());
-        if (checkMedicalRecord != null){
+        if (checkMedicalRecord != null) {
             medicalRecordDao.deleteMedicalRecord(medicalRecord);
             return true;
         }
 
         return false;
     }
-
-
-
-
-
-
-
-
 
 
 }

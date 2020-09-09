@@ -13,11 +13,7 @@ public class Person {
 
     //"firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com"
 
-    //set safety for invalid chaines
-    // TODO: 05/09/2020 delete id from person object
-    private int id;
-    private static int personIdCounter = 0;
-
+    // TODO: 09/09/2020  set safety for invalid chaines
 
     @NotBlank(message = "Please enter the first name")
     private String firstName;
@@ -37,10 +33,7 @@ public class Person {
     @Email(message = "Email should be valid")
     private String email;
 
-    @JsonIgnoreProperties(value = { "firstName","lastName" })
-    private MedicalRecord medicalRecord;
-
-    public Person(String firstName, String lastName, String address, String city, String zip, String phone, String email, MedicalRecord medicalRecord) {
+    public Person(@NotBlank(message = "Please enter the first name") String firstName, @NotBlank(message = "Please enter the last name") String lastName, @Length(min = 3, message = "Please provide correct address") String address, String city, String zip, String phone, @Email(message = "Email should be valid") String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -48,19 +41,10 @@ public class Person {
         this.zip = zip;
         this.phone = phone;
         this.email = email;
-        this.medicalRecord = medicalRecord;
     }
+
 
     public Person() {
-        this.id= personIdCounter++;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -119,48 +103,35 @@ public class Person {
         this.email = email;
     }
 
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public void setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return id == person.id &&
-                firstName.equals(person.firstName) &&
-                lastName.equals(person.lastName) &&
+        return Objects.equals(firstName, person.firstName) &&
+                Objects.equals(lastName, person.lastName) &&
                 Objects.equals(address, person.address) &&
                 Objects.equals(city, person.city) &&
                 Objects.equals(zip, person.zip) &&
                 Objects.equals(phone, person.phone) &&
-                Objects.equals(email, person.email) &&
-                Objects.equals(medicalRecord, person.medicalRecord);
+                Objects.equals(email, person.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, city, zip, phone, email, medicalRecord);
+        return Objects.hash(firstName, lastName, address, city, zip, phone, email);
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
+                "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", city='" + city + '\'' +
                 ", zip='" + zip + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", medicalRecord=" + medicalRecord +
                 '}';
     }
-
 }

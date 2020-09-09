@@ -1,6 +1,7 @@
 package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.service.DataService;
 import com.safetynet.alerts.service.FireStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,15 @@ import java.util.List;
 @RestController
 public class FireStationController {
 
-    @Autowired
+    //@Autowired
     FireStationService fireStationService;
+
+    @Autowired
+    public FireStationController(FireStationService fireStationService) {
+        this.fireStationService = fireStationService;
+        //personList = dataService.getDataAlert().getPersons();
+    }
+
 
     @GetMapping(value = "firestations/{station}")
     public List<FireStation> getFireStationsByStationId(@PathVariable Integer station) throws ResponseStatusException {
@@ -29,8 +37,8 @@ public class FireStationController {
         return fireStations;
     }
 
-    @GetMapping(value = "firestation")
-    public FireStation getFireStationByStationAddress(@RequestParam() String address) throws ResponseStatusException {
+    @GetMapping(value = "firestation/{address}")
+    public FireStation getFireStationByStationAddress(@PathVariable() String address) throws ResponseStatusException {
 
         FireStation fireStation = fireStationService.getFireStationByStationAddress(address);
         if (fireStation == null)
@@ -47,8 +55,10 @@ public class FireStationController {
             throw new ResponseStatusException(HttpStatus.FOUND, "This station already exist");
         }
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                .queryParam("address", fireStation.getAddress()).build().toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{address}")
+                //.queryParam("address", fireStation.getAddress()).build().toUri();
+                .buildAndExpand(fireStation.getAddress()).toUri();
+
         return ResponseEntity.created(location).build();
     }
 

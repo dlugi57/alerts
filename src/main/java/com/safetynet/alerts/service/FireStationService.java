@@ -20,5 +20,5 @@ public interface FireStationService {
 
     boolean deleteFireStation(FireStation fireStation);
 
-    List<PersonsInFireStationArea> getPersonsInFireStationArea(Integer stationNumber);
+    PersonsInFireStationArea getPersonsInFireStationArea(Integer stationNumber);
 }

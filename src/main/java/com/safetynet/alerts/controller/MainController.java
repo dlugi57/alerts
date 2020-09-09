@@ -1,6 +1,9 @@
 package com.safetynet.alerts.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.service.FireStationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +29,15 @@ public class MainController {
     //: prénom, nom, adresse, numéro de téléphone
     // sty adultes / qty childes
     @GetMapping(path = "firestation")
-    public List<PersonsInFireStationArea> getPersonsInFireStationArea(@RequestParam(required = true) Integer stationNumber){
+    public PersonsInFireStationArea getPersonsInFireStationArea(@RequestParam(required = true) Integer stationNumber){
 
-        List<PersonsInFireStationArea> personsInFireStationArea = fireStationService.getPersonsInFireStationArea(stationNumber);
+        PersonsInFireStationArea personsInFireStationArea = fireStationService.getPersonsInFireStationArea(stationNumber);
 
         if (personsInFireStationArea == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this id " + stationNumber + " don't exist or there is no persons on this area");
+
+
+
 
         return personsInFireStationArea;
     }

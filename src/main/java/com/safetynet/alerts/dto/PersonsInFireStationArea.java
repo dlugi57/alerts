@@ -1,5 +1,6 @@
 package com.safetynet.alerts.dto;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.safetynet.alerts.model.Person;
 
 import java.util.List;
@@ -7,12 +8,18 @@ import java.util.List;
 public class PersonsInFireStationArea {
     private int childQty;
     private int adultQty;
+
+
     private List<Person> persons;
 
     public PersonsInFireStationArea(int childQty, int adultQty, List<Person> persons) {
         this.childQty = childQty;
         this.adultQty = adultQty;
         this.persons = persons;
+    }
+
+    public PersonsInFireStationArea() {
+
     }
 
     public int getChildQty() {

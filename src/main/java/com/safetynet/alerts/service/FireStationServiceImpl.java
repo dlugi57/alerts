@@ -1,5 +1,9 @@
 package com.safetynet.alerts.service;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
@@ -23,7 +27,7 @@ public class FireStationServiceImpl implements FireStationService {
     MedicalRecordDao medicalRecordDao;
 
     @Autowired
-    public FireStationServiceImpl(FireStationDao fireStationDao, PersonDao personDao, MedicalRecordDao medicalRecordDao){
+    public FireStationServiceImpl(FireStationDao fireStationDao, PersonDao personDao, MedicalRecordDao medicalRecordDao) {
         this.fireStationDao = fireStationDao;
         this.personDao = personDao;
         this.medicalRecordDao = medicalRecordDao;
@@ -94,43 +98,59 @@ public class FireStationServiceImpl implements FireStationService {
     }
 
     @Override
-    public List<PersonsInFireStationArea> getPersonsInFireStationArea(Integer stationNumber) {
+    public PersonsInFireStationArea getPersonsInFireStationArea(Integer stationNumber) {
 
         List<FireStation> fireStations = fireStationDao.getFireStationsByStationId(stationNumber);
-        List<PersonsInFireStationArea> personsInFireStationArea = new ArrayList<PersonsInFireStationArea>();
+        PersonsInFireStationArea personsInFireStationArea = new PersonsInFireStationArea();
 
-        Integer childQty;
-        Integer adultQty;
+        List<Person> personsToArea = new ArrayList<Person>();
+        Integer childQty = 0;
+        Integer adultQty = 0;
 
         if (fireStations != null) {
 
-            for (FireStation fireStation : fireStations){
+            for (FireStation fireStation : fireStations) {
                 String address = fireStation.getAddress();
 
                 List<Person> persons = personDao.getPersonsByAddress(address);
-                if ( persons!= null){
-                    for (Person person : persons){
+                if (persons != null) {
+                    for (Person person : persons) {
+
                         MedicalRecord personMedicalRecord =
                                 medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-                        if (personMedicalRecord != null){
+                        if (personMedicalRecord != null) {
 
                             Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
-
-
-                            //personMedicalRecord
+                            // TODO: 09/09/2020 how to do this in proper way
+                            if (age <= 18) {
+                                personsInFireStationArea.setChildQty(personsInFireStationArea.getChildQty() + 1);
+                                childQty++;
+                            } else {
+                                personsInFireStationArea.setAdultQty(personsInFireStationArea.getAdultQty() + 1);
+                                adultQty++;
+                            }
                         }
+
+                        // TODO: 10/09/2020 how to hide some fileds like zip code?
+                        List<Person> personsInArea = personsInFireStationArea.getPersons();
+                        if (personsInArea == null) {
+                            personsInArea = new ArrayList<Person>();
+                        }
+                        personsInArea.add(person);
+                        personsInFireStationArea.setPersons(personsInArea);
 
 
                     }
-                }
 
+                }
 
 
             }
 
+            if (personsInFireStationArea != null) {
+                return personsInFireStationArea;
+            }
 
-
-            return null;
         }
 
         return null;

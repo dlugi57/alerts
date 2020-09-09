@@ -1,10 +1,12 @@
 package com.safetynet.alerts.dao;
 
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -72,6 +74,26 @@ public class PersonDaoImpl implements PersonDao {
 
         }
         return false;
+    }
+
+    @Override
+    public List<Person> getPersonsByAddress(String address) {
+
+        List<Person> filteredPersonsList = new ArrayList<Person>();
+
+        for (Person person : personList) {
+
+            if (person.getAddress().replaceAll("\\s+", "").equalsIgnoreCase(address.replaceAll("\\s+", ""))) {
+
+                filteredPersonsList.add(person);
+
+            }
+
+        }
+        if (!filteredPersonsList.isEmpty()){
+            return filteredPersonsList;
+        }
+        return null;
     }
 
 

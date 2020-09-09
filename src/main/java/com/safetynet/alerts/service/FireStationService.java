@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.model.FireStation;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface FireStationService {
     boolean updateFireStation(FireStation fireStation);
 
     boolean deleteFireStation(FireStation fireStation);
+
+    List<PersonsInFireStationArea> getPersonsInFireStationArea(Integer stationNumber);
 }

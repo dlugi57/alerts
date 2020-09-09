@@ -15,4 +15,6 @@ public interface PersonDao {
     boolean updatePerson(Person person);
 
     boolean deletePerson(Person person);
+
+    List<Person> getPersonsByAddress(String address);
 }

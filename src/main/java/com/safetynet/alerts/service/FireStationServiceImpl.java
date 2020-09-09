@@ -1,17 +1,33 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.dao.FireStationDao;
+import com.safetynet.alerts.dao.MedicalRecordDao;
+import com.safetynet.alerts.dao.PersonDao;
+import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.util.AgeCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FireStationServiceImpl implements FireStationService {
 
-    @Autowired
+
     FireStationDao fireStationDao;
+    PersonDao personDao;
+    MedicalRecordDao medicalRecordDao;
+
+    @Autowired
+    public FireStationServiceImpl(FireStationDao fireStationDao, PersonDao personDao, MedicalRecordDao medicalRecordDao){
+        this.fireStationDao = fireStationDao;
+        this.personDao = personDao;
+        this.medicalRecordDao = medicalRecordDao;
+    }
 
     @Override
     public List<FireStation> getFireStationsByStationId(Integer id) {
@@ -73,15 +89,51 @@ public class FireStationServiceImpl implements FireStationService {
                 fireStationDao.deleteFireStationByAddress(fireStation.getAddress());
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public List<PersonsInFireStationArea> getPersonsInFireStationArea(Integer stationNumber) {
+
+        List<FireStation> fireStations = fireStationDao.getFireStationsByStationId(stationNumber);
+        List<PersonsInFireStationArea> personsInFireStationArea = new ArrayList<PersonsInFireStationArea>();
+
+        Integer childQty;
+        Integer adultQty;
+
+        if (fireStations != null) {
+
+            for (FireStation fireStation : fireStations){
+                String address = fireStation.getAddress();
+
+                List<Person> persons = personDao.getPersonsByAddress(address);
+                if ( persons!= null){
+                    for (Person person : persons){
+                        MedicalRecord personMedicalRecord =
+                                medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                        if (personMedicalRecord != null){
+
+                            Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
 
 
+                            //personMedicalRecord
+                        }
+
+
+                    }
+                }
+
+
+
+            }
+
+
+
+            return null;
         }
 
-
-
-
-
-        return false;
+        return null;
     }
 
 

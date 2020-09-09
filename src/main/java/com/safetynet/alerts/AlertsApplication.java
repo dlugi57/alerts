@@ -10,13 +10,8 @@ public class AlertsApplication {
         SpringApplication.run(AlertsApplication.class, args);
     }
 
-/*    @Bean
-    CommandLineRunner init(DataService dataService) {
-        return (args) -> {
-            dataService.init();
-        };
-    }*/
-
+    // TODO: 09/09/2020 something about list instead of address and station in station model
+    // TODO: 09/09/2020 how to create clone of object ?
     // TODO: create class AlertAppConfiguration at the same lever with @configuration adnotation onluy and put this bean inside
 }
 

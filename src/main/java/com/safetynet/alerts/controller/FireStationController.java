@@ -72,7 +72,7 @@ public class FireStationController {
     public void deleteFireStation(@RequestBody FireStation fireStation) {
 
         if (!fireStationService.deleteFireStation(fireStation)) {
-            throw new ResponseStatusException(HttpStatus.FOUND, "This person don't exist");
+            throw new ResponseStatusException(HttpStatus.FOUND, "This fire station don't exist");
         }
     }
 

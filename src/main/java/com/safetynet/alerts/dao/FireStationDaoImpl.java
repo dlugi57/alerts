@@ -86,6 +86,29 @@ public class FireStationDaoImpl implements FireStationDao {
     }
 
     @Override
+    public void deleteFireStationsByStation(int station) {
+
+        for (FireStation fireStation : new ArrayList<FireStation>(fireStations)) {
+            if (fireStation.getStation() == station) {
+                fireStations.remove(fireStation);
+            }
+        }
+    }
+
+    @Override
+    public void deleteFireStationByAddress(String address) {
+        for (FireStation fireStation : fireStations) {
+            if (fireStation.getAddress().replaceAll("\\s+", "")
+                    .equalsIgnoreCase(address.replaceAll("\\s+", ""))
+            ) {
+                fireStations.remove(fireStation);
+                return;
+            }
+
+        }
+    }
+
+    @Override
     public List<FireStation> getFireStations() {
         return fireStations;
     }

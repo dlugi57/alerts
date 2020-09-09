@@ -37,7 +37,7 @@ public class FireStationServiceImpl implements FireStationService {
     @Override
     public boolean addFireStation(FireStation fireStation) {
         FireStation checkFireStation = fireStationDao.getFireStation(fireStation.getStation(), fireStation.getAddress());
-        if (checkFireStation == null){
+        if (checkFireStation == null) {
 
             fireStationDao.addFireStation(fireStation);
             return true;
@@ -48,7 +48,7 @@ public class FireStationServiceImpl implements FireStationService {
     @Override
     public boolean updateFireStation(FireStation fireStation) {
         FireStation checkFireStation = fireStationDao.getFireStationByStationAddress(fireStation.getAddress());
-        if (checkFireStation != null){
+        if (checkFireStation != null) {
             fireStationDao.updateFireStation(fireStation);
             return true;
         }
@@ -60,12 +60,26 @@ public class FireStationServiceImpl implements FireStationService {
 
         // TODO: 08/09/2020 make three checks and then 3 deletes
 
+        if (fireStation.getStation() != 0 && fireStation.getAddress() == null) {
+            List<FireStation> checkFireStations = fireStationDao.getFireStationsByStationId(fireStation.getStation());
+            if (checkFireStations != null) {
+                fireStationDao.deleteFireStationsByStation(fireStation.getStation());
+                return true;
+            }
 
-/*        Person checkPerson = personDao.getByFirstNameAndLastName(person.getFirstName(), person.getLastName());
-        if (checkPerson != null){
-            personDao.deletePerson(person);
-            return true;
-        }*/
+        } else {
+            FireStation checkFireStation = fireStationDao.getFireStationByStationAddress(fireStation.getAddress());
+            if (checkFireStation != null) {
+                fireStationDao.deleteFireStationByAddress(fireStation.getAddress());
+                return true;
+            }
+
+
+        }
+
+
+
+
 
         return false;
     }

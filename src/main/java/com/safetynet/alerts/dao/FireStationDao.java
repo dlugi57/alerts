@@ -16,4 +16,8 @@ public interface FireStationDao {
     boolean addFireStation(FireStation fireStation);
 
     boolean updateFireStation(FireStation fireStation);
+
+    void deleteFireStationsByStation(int station);
+
+    void deleteFireStationByAddress(String address);
 }

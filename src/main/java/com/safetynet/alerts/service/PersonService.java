@@ -1,5 +1,6 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.dto.ChildrenByAddress;
 import com.safetynet.alerts.model.Person;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface PersonService {
     boolean updatePerson(Person person);
 
     boolean deletePerson(Person person);
+
+    ChildrenByAddress getChildrenByAddress(String address);
 }

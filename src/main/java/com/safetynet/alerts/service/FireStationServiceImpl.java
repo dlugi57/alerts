@@ -103,9 +103,6 @@ public class FireStationServiceImpl implements FireStationService {
         List<FireStation> fireStations = fireStationDao.getFireStationsByStationId(stationNumber);
         PersonsInFireStationArea personsInFireStationArea = new PersonsInFireStationArea();
 
-        List<Person> personsToArea = new ArrayList<Person>();
-        Integer childQty = 0;
-        Integer adultQty = 0;
 
         if (fireStations != null) {
 
@@ -124,10 +121,10 @@ public class FireStationServiceImpl implements FireStationService {
                             // TODO: 09/09/2020 how to do this in proper way
                             if (age <= 18) {
                                 personsInFireStationArea.setChildQty(personsInFireStationArea.getChildQty() + 1);
-                                childQty++;
+
                             } else {
                                 personsInFireStationArea.setAdultQty(personsInFireStationArea.getAdultQty() + 1);
-                                adultQty++;
+
                             }
                         }
 

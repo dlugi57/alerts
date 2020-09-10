@@ -4,8 +4,10 @@ package com.safetynet.alerts.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.safetynet.alerts.dto.ChildrenByAddress;
 import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.service.FireStationService;
+import com.safetynet.alerts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,12 @@ import java.util.List;
 public class MainController {
 
     FireStationService fireStationService;
+    PersonService personService;
 
     @Autowired
-    public MainController(FireStationService fireStationService) {
+    public MainController(FireStationService fireStationService, PersonService personService) {
         this.fireStationService = fireStationService;
+        this.personService = personService;
         //personList = dataService.getDataAlert().getPersons();
     }
 
@@ -41,6 +45,18 @@ public class MainController {
 
         return personsInFireStationArea;
     }
+
+    @GetMapping(path = "childAlert")
+    public ChildrenByAddress getChildrenByAddress(@RequestParam(required = true) String address){
+
+        ChildrenByAddress childrenByAddress = personService.getChildrenByAddress(address);
+
+        if (childrenByAddress == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "At this address " + address + " there is no persons at all");
+
+        return childrenByAddress;
+    }
+
 
 
 

@@ -57,6 +57,17 @@ public class MainController {
         return childrenByAddress;
     }
 
+    @GetMapping(path = "phoneAlert")
+    public List<String> getPhoneNumbersInFireStationArea(@RequestParam(required = true) Integer stationNumber){
+
+        List<String> phoneNumbersInFireStationArea = fireStationService.getPhoneNumbersInFireStationArea(stationNumber);
+
+        if (phoneNumbersInFireStationArea == null || phoneNumbersInFireStationArea.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this id " + stationNumber + " don't exist or there is no persons on this area");
+
+        return phoneNumbersInFireStationArea;
+    }
+
 
 
 

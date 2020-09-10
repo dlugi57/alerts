@@ -21,4 +21,6 @@ public interface FireStationService {
     boolean deleteFireStation(FireStation fireStation);
 
     PersonsInFireStationArea getPersonsInFireStationArea(Integer stationNumber);
+
+    List<String> getPhoneNumbersInFireStationArea(Integer stationNumber);
 }

@@ -153,5 +153,35 @@ public class FireStationServiceImpl implements FireStationService {
         return null;
     }
 
+    @Override
+    public List<String> getPhoneNumbersInFireStationArea(Integer stationNumber) {
+        List<FireStation> fireStations = fireStationDao.getFireStationsByStationId(stationNumber);
+        List<String> phoneNumbersInFireStationArea = new ArrayList<>();
+
+        if (fireStations != null) {
+
+            for (FireStation fireStation : fireStations) {
+                String address = fireStation.getAddress();
+
+                List<Person> persons = personDao.getPersonsByAddress(address);
+                if (persons != null) {
+                    for (Person person : persons) {
+                        phoneNumbersInFireStationArea.add(person.getPhone());
+                    }
+
+                }
+
+
+            }
+
+            if (phoneNumbersInFireStationArea != null) {
+                return phoneNumbersInFireStationArea;
+            }
+
+        }
+
+        return null;
+    }
+
 
 }

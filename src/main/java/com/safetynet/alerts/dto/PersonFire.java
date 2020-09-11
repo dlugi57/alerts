@@ -13,20 +13,16 @@ public class PersonFire {
 
     private String phone;
 
-    private String age;
-
-    @Email(message = "Email should be valid")
-    private String email;
+    private int age;
 
     private List<String> medications;
 
     private List<String> allergies;
 
-    public PersonFire(String lastName, String phone, String age, @Email(message = "Email should be valid") String email, List<String> medications, List<String> allergies) {
+    public PersonFire(String lastName, String phone, int age, List<String> medications, List<String> allergies) {
         this.lastName = lastName;
         this.phone = phone;
         this.age = age;
-        this.email = email;
         this.medications = medications;
         this.allergies = allergies;
     }
@@ -50,20 +46,12 @@ public class PersonFire {
         this.phone = phone;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public List<String> getMedications() {
@@ -88,7 +76,6 @@ public class PersonFire {
                 "lastName='" + lastName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", age='" + age + '\'' +
-                ", email='" + email + '\'' +
                 ", medications=" + medications +
                 ", allergies=" + allergies +
                 '}';

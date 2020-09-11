@@ -43,8 +43,6 @@ public class FireStationDaoImpl implements FireStationDao {
         }
 
         return null;
-
-
     }
 
     @Override

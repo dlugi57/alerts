@@ -1,9 +1,13 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
 import com.safetynet.alerts.dto.PersonAlert;
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonFire;
+import com.safetynet.alerts.dto.PersonsAndStationByAddress;
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.util.AgeCalculator;
@@ -19,11 +23,13 @@ public class PersonServiceImpl implements PersonService {
 
     PersonDao personDao;
     MedicalRecordDao medicalRecordDao;
+    FireStationDao fireStationDao;
 
     @Autowired
-    public PersonServiceImpl(PersonDao personDao, MedicalRecordDao medicalRecordDao){
+    public PersonServiceImpl(PersonDao personDao, MedicalRecordDao medicalRecordDao, FireStationDao fireStationDao){
         this.personDao = personDao;
         this.medicalRecordDao = medicalRecordDao;
+        this.fireStationDao = fireStationDao;
     }
 
     @Override
@@ -104,6 +110,51 @@ public class PersonServiceImpl implements PersonService {
 
         if (childrenByAddress != null) {
             return childrenByAddress;
+        }
+
+        return null;
+    }
+
+    @Override
+    public PersonsAndStationByAddress getPersonsAndStationByAddress(String address) {
+        List<Person> persons = personDao.getPersonsByAddress(address);
+        FireStation fireStation = fireStationDao.getFireStationByStationAddress(address);
+
+        PersonsAndStationByAddress personsAndStationByAddress = null;
+        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+
+        if (persons!=null){
+            for (Person person : persons) {
+                PersonFire personFire = new PersonFire();
+
+                MedicalRecord personMedicalRecord =
+                        medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                if (personMedicalRecord != null) {
+
+                    Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                    personFire.setLastName(person.getLastName());
+                    personFire.setAge(age);
+                    personFire.setPhone(person.getPhone());
+                    personFire.setAllergies(personMedicalRecord.getAllergies());
+                    personFire.setMedications(personMedicalRecord.getMedications());
+
+                }
+
+                personsFire.add(personFire);
+            }
+            personsAndStationByAddress = new PersonsAndStationByAddress();
+            personsAndStationByAddress.setPersons(personsFire);
+        }
+
+
+
+
+        if (personsAndStationByAddress != null) {
+            if (fireStation != null){
+                personsAndStationByAddress.setStation(fireStation.getStation());
+            }
+
+            return personsAndStationByAddress;
         }
 
         return null;

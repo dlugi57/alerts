@@ -68,8 +68,8 @@ public class MainController {
 
     @GetMapping(path = "fire")
     public PersonsAndStationByAddress getPersonsAndStationByAddress(@RequestParam(required = true) String address){
-        PersonsAndStationByAddress personsAndStationByAddress = new PersonsAndStationByAddress();
-      //  PersonsAndStationByAddress personsAndStationByAddress = personService.getPersonsAndStationByAddress(address);
+
+        PersonsAndStationByAddress personsAndStationByAddress = personService.getPersonsAndStationByAddress(address);
 
         if (personsAndStationByAddress == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "At this address " + address + " there is no persons at all");

@@ -3,10 +3,7 @@ package com.safetynet.alerts.service;
 import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
-import com.safetynet.alerts.dto.PersonAlert;
-import com.safetynet.alerts.dto.ChildrenByAddress;
-import com.safetynet.alerts.dto.PersonFire;
-import com.safetynet.alerts.dto.PersonsAndStationByAddress;
+import com.safetynet.alerts.dto.*;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
@@ -26,7 +23,7 @@ public class PersonServiceImpl implements PersonService {
     FireStationDao fireStationDao;
 
     @Autowired
-    public PersonServiceImpl(PersonDao personDao, MedicalRecordDao medicalRecordDao, FireStationDao fireStationDao){
+    public PersonServiceImpl(PersonDao personDao, MedicalRecordDao medicalRecordDao, FireStationDao fireStationDao) {
         this.personDao = personDao;
         this.medicalRecordDao = medicalRecordDao;
         this.fireStationDao = fireStationDao;
@@ -83,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
         List<PersonAlert> adults = new ArrayList<PersonAlert>();
         ChildrenByAddress childrenByAddress = new ChildrenByAddress();
 
-        if (persons!=null){
+        if (persons != null) {
             for (Person person : persons) {
                 PersonAlert personAlert = new PersonAlert();
 
@@ -123,7 +120,7 @@ public class PersonServiceImpl implements PersonService {
         PersonsAndStationByAddress personsAndStationByAddress = null;
         List<PersonFire> personsFire = new ArrayList<PersonFire>();
 
-        if (persons!=null){
+        if (persons != null) {
             for (Person person : persons) {
                 PersonFire personFire = new PersonFire();
 
@@ -146,15 +143,79 @@ public class PersonServiceImpl implements PersonService {
             personsAndStationByAddress.setPersons(personsFire);
         }
 
-
-
-
         if (personsAndStationByAddress != null) {
-            if (fireStation != null){
+            if (fireStation != null) {
                 personsAndStationByAddress.setStation(fireStation.getStation());
             }
 
             return personsAndStationByAddress;
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<PersonsAndAddressesByStation> getPersonsAndAddressesByStations(List<Integer> stations) {
+
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList = new ArrayList<PersonsAndAddressesByStation>();
+        PersonsAndAddressesByStation personsAndAddressesByStation = null;
+
+
+        if (stations != null || !stations.isEmpty()) {
+
+            for (Integer station : stations) {
+                List<FireStation> fireStations = fireStationDao.getFireStationsByStationId(station);
+                if (fireStations != null || !fireStations.isEmpty()) {
+
+
+                    for (FireStation fireStation : fireStations) {
+                        List<Person> persons = personDao.getPersonsByAddress(fireStation.getAddress());
+                        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+                        if (persons != null) {
+                            for (Person person : persons) {
+                                PersonFire personFire = new PersonFire();
+
+                                MedicalRecord personMedicalRecord =
+                                        medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+                                if (personMedicalRecord != null) {
+
+                                    Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                                    personFire.setLastName(person.getLastName());
+                                    personFire.setAge(age);
+                                    personFire.setPhone(person.getPhone());
+                                    personFire.setAllergies(personMedicalRecord.getAllergies());
+                                    personFire.setMedications(personMedicalRecord.getMedications());
+
+                                }
+
+                                personsFire.add(personFire);
+                            }
+                            personsAndAddressesByStation = new PersonsAndAddressesByStation();
+                            personsAndAddressesByStation.setPersons(personsFire);
+                        }
+
+
+                        if (personsAndAddressesByStation != null) {
+                            if (fireStation != null) {
+                                personsAndAddressesByStation.setAddress(fireStation.getAddress());
+
+                                personsAndAddressesByStationList.add(personsAndAddressesByStation);
+                            }
+                        }
+
+                    }
+
+
+                }
+
+
+            }
+
+            if (personsAndAddressesByStationList != null || !personsAndAddressesByStationList.isEmpty()) {
+                return personsAndAddressesByStationList;
+            }
+
+
         }
 
         return null;

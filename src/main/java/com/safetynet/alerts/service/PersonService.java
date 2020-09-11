@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonsAndAddressesByStation;
 import com.safetynet.alerts.dto.PersonsAndStationByAddress;
 import com.safetynet.alerts.model.Person;
 
@@ -22,4 +23,6 @@ public interface PersonService {
     ChildrenByAddress getChildrenByAddress(String address);
 
     PersonsAndStationByAddress getPersonsAndStationByAddress(String address);
+
+    List<PersonsAndAddressesByStation> getPersonsAndAddressesByStations(List<Integer> stations);
 }

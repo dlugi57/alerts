@@ -2,6 +2,7 @@ package com.safetynet.alerts.controller;
 
 
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonsAndAddressesByStation;
 import com.safetynet.alerts.dto.PersonsAndStationByAddress;
 import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.service.FireStationService;
@@ -75,6 +76,18 @@ public class MainController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "At this address " + address + " there is no persons at all");
 
         return personsAndStationByAddress;
+    }
+
+
+    @GetMapping(path = "flood/stations")
+    public List<PersonsAndAddressesByStation> getPersonsAndAddressesByStations(@RequestParam(required = true) List<Integer> stations){
+
+        List<PersonsAndAddressesByStation> personsAndAddressesByStation = personService.getPersonsAndAddressesByStations(stations);
+
+        if (personsAndAddressesByStation == null || personsAndAddressesByStation.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this ids " + stations + " don't exist or there is no persons on this area");
+
+        return personsAndAddressesByStation;
     }
 
 

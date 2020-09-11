@@ -1,10 +1,8 @@
 package com.safetynet.alerts.controller;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonsAndStationByAddress;
 import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.service.FireStationService;
 import com.safetynet.alerts.service.PersonService;
@@ -66,6 +64,17 @@ public class MainController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this id " + stationNumber + " don't exist or there is no persons on this area");
 
         return phoneNumbersInFireStationArea;
+    }
+
+    @GetMapping(path = "fire")
+    public PersonsAndStationByAddress getPersonsAndStationByAddress(@RequestParam(required = true) String address){
+        PersonsAndStationByAddress personsAndStationByAddress = new PersonsAndStationByAddress();
+      //  PersonsAndStationByAddress personsAndStationByAddress = personService.getPersonsAndStationByAddress(address);
+
+        if (personsAndStationByAddress == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "At this address " + address + " there is no persons at all");
+
+        return personsAndStationByAddress;
     }
 
 

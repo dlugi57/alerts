@@ -1,10 +1,7 @@
 package com.safetynet.alerts.controller;
 
 
-import com.safetynet.alerts.dto.ChildrenByAddress;
-import com.safetynet.alerts.dto.PersonsAndAddressesByStation;
-import com.safetynet.alerts.dto.PersonsAndStationByAddress;
-import com.safetynet.alerts.dto.PersonsInFireStationArea;
+import com.safetynet.alerts.dto.*;
 import com.safetynet.alerts.service.FireStationService;
 import com.safetynet.alerts.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +85,28 @@ public class MainController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this ids " + stations + " don't exist or there is no persons on this area");
 
         return personsAndAddressesByStation;
+    }
+
+    @GetMapping(path = "personInfo")
+    public List<PersonInfo> getPersonsInfo(@RequestParam(required = true)  String firstName,@RequestParam(required = true) String lastName){
+
+        List<PersonInfo> personsInfo = personService.getPersonsInfo(firstName, lastName);
+
+        if (personsInfo == null || personsInfo.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no persons with this name: " + lastName + " at this address");
+
+        return personsInfo;
+    }
+
+    @GetMapping(path = "communityEmail")
+    public List<PersonInfo> getPersonsInfo(@RequestParam(required = true)  String city){
+
+        List<String> communityEmails = personService.getCommunityEmails(city);
+
+        if (communityEmails == null || communityEmails.isEmpty())
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no persons living in this city: " + city);
+
+        return communityEmails;
     }
 
 

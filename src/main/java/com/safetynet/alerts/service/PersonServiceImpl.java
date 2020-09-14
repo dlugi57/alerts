@@ -220,4 +220,52 @@ public class PersonServiceImpl implements PersonService {
 
         return null;
     }
+
+    @Override
+    public List<PersonInfo> getPersonsInfo(String firstName, String lastName) {
+
+        Person person = personDao.getByFirstNameAndLastName(firstName, lastName);
+        List<PersonInfo> personsInfo = new ArrayList<PersonInfo>();
+
+        if (person != null){
+
+            List<Person> persons = personDao.getPersonsByAddress(person.getAddress());
+            if (persons != null || !persons.isEmpty()){
+                for (Person personFromList : persons){
+                    PersonInfo personInfo = new PersonInfo();
+
+                    MedicalRecord personMedicalRecord =
+                            medicalRecordDao.getMedicalRecordByFirstNameAndLastName(personFromList.getFirstName(), personFromList.getLastName());
+                    if (personMedicalRecord != null) {
+
+                        Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                        personInfo.setLastName(person.getLastName());
+                        personInfo.setAddress(person.getAddress());
+                        personInfo.setAge(age);
+                        personInfo.setEmail(person.getEmail());
+                        personInfo.setAllergies(personMedicalRecord.getAllergies());
+                        personInfo.setMedications(personMedicalRecord.getMedications());
+
+                    }
+
+                    personsInfo.add(personInfo);
+                }
+
+                if (!personsInfo.isEmpty()){
+                    return personsInfo;
+                }
+            }
+
+
+
+        }
+
+
+        return null;
+    }
+
+    @Override
+    public List<String> getCommunityEmails(String city) {
+        return null;
+    }
 }

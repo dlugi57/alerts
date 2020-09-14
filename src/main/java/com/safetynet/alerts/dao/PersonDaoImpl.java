@@ -25,7 +25,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public List<Person> getPersons() {
-        return null;
+        return personList;
     }
 
     @Override
@@ -87,6 +87,26 @@ public class PersonDaoImpl implements PersonDao {
         for (Person person : personList) {
 
             if (person.getAddress().replaceAll("\\s+", "").equalsIgnoreCase(address.replaceAll("\\s+", ""))) {
+
+                filteredPersonsList.add(person);
+
+            }
+
+        }
+        if (!filteredPersonsList.isEmpty()){
+            return filteredPersonsList;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Person> getPersonsByCity(String city) {
+
+        List<Person> filteredPersonsList = new ArrayList<Person>();
+
+        for (Person person : personList) {
+
+            if (person.getCity().replaceAll("\\s+", "").equalsIgnoreCase(city.replaceAll("\\s+", ""))) {
 
                 filteredPersonsList.add(person);
 

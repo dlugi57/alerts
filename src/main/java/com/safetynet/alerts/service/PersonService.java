@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonInfo;
 import com.safetynet.alerts.dto.PersonsAndAddressesByStation;
 import com.safetynet.alerts.dto.PersonsAndStationByAddress;
 import com.safetynet.alerts.model.Person;
@@ -25,4 +26,8 @@ public interface PersonService {
     PersonsAndStationByAddress getPersonsAndStationByAddress(String address);
 
     List<PersonsAndAddressesByStation> getPersonsAndAddressesByStations(List<Integer> stations);
+
+    List<PersonInfo> getPersonsInfo(String firstName, String lastName);
+
+    List<String> getCommunityEmails(String city);
 }

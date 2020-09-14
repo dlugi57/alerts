@@ -118,10 +118,11 @@ public class PersonServiceImpl implements PersonService {
         FireStation fireStation = fireStationDao.getFireStationByStationAddress(address);
 
         PersonsAndStationByAddress personsAndStationByAddress = null;
-        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+        //List<PersonFire> personsFire = new ArrayList<PersonFire>();
 
         if (persons != null) {
-            for (Person person : persons) {
+            List<PersonFire> personsFire  = parsePersonsFire(persons);
+/*            for (Person person : persons) {
                 PersonFire personFire = new PersonFire();
 
                 MedicalRecord personMedicalRecord =
@@ -138,9 +139,12 @@ public class PersonServiceImpl implements PersonService {
                 }
 
                 personsFire.add(personFire);
+            }*/
+            if (!personsFire.isEmpty()){
+                personsAndStationByAddress = new PersonsAndStationByAddress();
+                personsAndStationByAddress.setPersons(personsFire);
             }
-            personsAndStationByAddress = new PersonsAndStationByAddress();
-            personsAndStationByAddress.setPersons(personsFire);
+
         }
 
         if (personsAndStationByAddress != null) {
@@ -170,9 +174,10 @@ public class PersonServiceImpl implements PersonService {
 
                     for (FireStation fireStation : fireStations) {
                         List<Person> persons = personDao.getPersonsByAddress(fireStation.getAddress());
-                        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+                        //List<PersonFire> personsFire = new ArrayList<PersonFire>();
                         if (persons != null) {
-                            for (Person person : persons) {
+                            List<PersonFire> personsFire = parsePersonsFire(persons);
+/*                            for (Person person : persons) {
                                 PersonFire personFire = new PersonFire();
 
                                 MedicalRecord personMedicalRecord =
@@ -189,9 +194,13 @@ public class PersonServiceImpl implements PersonService {
                                 }
 
                                 personsFire.add(personFire);
+                            }*/
+
+                            if (personsFire!= null){
+                                personsAndAddressesByStation = new PersonsAndAddressesByStation();
+                                personsAndAddressesByStation.setPersons(personsFire);
                             }
-                            personsAndAddressesByStation = new PersonsAndAddressesByStation();
-                            personsAndAddressesByStation.setPersons(personsFire);
+
                         }
 
 
@@ -278,5 +287,32 @@ public class PersonServiceImpl implements PersonService {
             }
         }
         return null;
+    }
+
+    private List<PersonFire> parsePersonsFire(List<Person> persons) {
+        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+
+        for (Person person : persons) {
+            PersonFire personFire = new PersonFire();
+
+            MedicalRecord personMedicalRecord =
+                    medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
+            if (personMedicalRecord != null) {
+
+                Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                personFire.setLastName(person.getLastName());
+                personFire.setAge(age);
+                personFire.setPhone(person.getPhone());
+                personFire.setAllergies(personMedicalRecord.getAllergies());
+                personFire.setMedications(personMedicalRecord.getMedications());
+
+            }
+
+            personsFire.add(personFire);
+        }
+        if (!personsFire.isEmpty()){
+            return personsFire;
+        }
+    return null;
     }
 }

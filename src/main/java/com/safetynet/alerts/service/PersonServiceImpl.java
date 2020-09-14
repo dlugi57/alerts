@@ -266,6 +266,17 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<String> getCommunityEmails(String city) {
+        List <Person> persons = personDao.getPersonsByCity(city);
+        List <String> communityEmails = new ArrayList<String>();
+        if (persons != null && !persons.isEmpty()){
+            for (Person person:persons){
+                communityEmails.add(person.getEmail());
+            }
+
+            if (!communityEmails.isEmpty()){
+                return communityEmails;
+            }
+        }
         return null;
     }
 }

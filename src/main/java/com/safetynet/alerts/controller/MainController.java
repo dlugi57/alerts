@@ -99,7 +99,7 @@ public class MainController {
     }
 
     @GetMapping(path = "communityEmail")
-    public List<PersonInfo> getPersonsInfo(@RequestParam(required = true)  String city){
+    public List<String> getPersonsInfo(@RequestParam(required = true)  String city){
 
         List<String> communityEmails = personService.getCommunityEmails(city);
 

@@ -76,8 +76,8 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public ChildrenByAddress getChildrenByAddress(String address) {
         List<Person> persons = personDao.getPersonsByAddress(address);
-        List<PersonAlert> children = new ArrayList<PersonAlert>();
-        List<PersonAlert> adults = new ArrayList<PersonAlert>();
+        List<PersonAlert> children = new ArrayList<>();
+        List<PersonAlert> adults = new ArrayList<>();
         ChildrenByAddress childrenByAddress = new ChildrenByAddress();
 
         if (persons != null) {
@@ -88,7 +88,7 @@ public class PersonServiceImpl implements PersonService {
                         medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
                 if (personMedicalRecord != null) {
 
-                    Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                    int age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
                     personAlert.setFirstName(person.getFirstName());
                     personAlert.setLastName(person.getLastName());
                     personAlert.setAge(age);
@@ -105,11 +105,11 @@ public class PersonServiceImpl implements PersonService {
             }
         }
 
-        if (childrenByAddress != null) {
+/*        if (childrenByAddress != null) {
             return childrenByAddress;
-        }
+        }*/
 
-        return null;
+        return childrenByAddress;
     }
 
     @Override
@@ -140,6 +140,7 @@ public class PersonServiceImpl implements PersonService {
 
                 personsFire.add(personFire);
             }*/
+            // TODO: 14/09/2020 how to resolve this warning
             if (!personsFire.isEmpty()){
                 personsAndStationByAddress = new PersonsAndStationByAddress();
                 personsAndStationByAddress.setPersons(personsFire);
@@ -161,7 +162,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<PersonsAndAddressesByStation> getPersonsAndAddressesByStations(List<Integer> stations) {
 
-        List<PersonsAndAddressesByStation> personsAndAddressesByStationList = new ArrayList<PersonsAndAddressesByStation>();
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList = new ArrayList<>();
         PersonsAndAddressesByStation personsAndAddressesByStation = null;
 
 
@@ -234,7 +235,7 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonInfo> getPersonsInfo(String firstName, String lastName) {
 
         Person person = personDao.getByFirstNameAndLastName(firstName, lastName);
-        List<PersonInfo> personsInfo = new ArrayList<PersonInfo>();
+        List<PersonInfo> personsInfo = new ArrayList<>();
 
         if (person != null){
 
@@ -247,7 +248,7 @@ public class PersonServiceImpl implements PersonService {
                             medicalRecordDao.getMedicalRecordByFirstNameAndLastName(personFromList.getFirstName(), personFromList.getLastName());
                     if (personMedicalRecord != null) {
 
-                        Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                        int age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
                         personInfo.setLastName(person.getLastName());
                         personInfo.setAddress(person.getAddress());
                         personInfo.setAge(age);
@@ -276,7 +277,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<String> getCommunityEmails(String city) {
         List <Person> persons = personDao.getPersonsByCity(city);
-        List <String> communityEmails = new ArrayList<String>();
+        List <String> communityEmails = new ArrayList<>();
         if (persons != null && !persons.isEmpty()){
             for (Person person:persons){
                 communityEmails.add(person.getEmail());
@@ -290,7 +291,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     private List<PersonFire> parsePersonsFire(List<Person> persons) {
-        List<PersonFire> personsFire = new ArrayList<PersonFire>();
+        List<PersonFire> personsFire = new ArrayList<>();
 
         for (Person person : persons) {
             PersonFire personFire = new PersonFire();
@@ -299,7 +300,7 @@ public class PersonServiceImpl implements PersonService {
                     medicalRecordDao.getMedicalRecordByFirstNameAndLastName(person.getFirstName(), person.getLastName());
             if (personMedicalRecord != null) {
 
-                Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
+                int age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
                 personFire.setLastName(person.getLastName());
                 personFire.setAge(age);
                 personFire.setPhone(person.getPhone());

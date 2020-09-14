@@ -10,9 +10,9 @@ public class PersonsInFireStationArea {
     private int adultQty;
 
 
-    private List<Person> persons;
+    private List<PersonFireStation> persons;
 
-    public PersonsInFireStationArea(int childQty, int adultQty, List<Person> persons) {
+    public PersonsInFireStationArea(int childQty, int adultQty, List<PersonFireStation> persons) {
         this.childQty = childQty;
         this.adultQty = adultQty;
         this.persons = persons;
@@ -38,11 +38,11 @@ public class PersonsInFireStationArea {
         this.adultQty = adultQty;
     }
 
-    public List<Person> getPersons() {
+    public List<PersonFireStation> getPersons() {
         return persons;
     }
 
-    public void setPersons(List<Person> persons) {
+    public void setPersons(List<PersonFireStation> persons) {
         this.persons = persons;
     }
 

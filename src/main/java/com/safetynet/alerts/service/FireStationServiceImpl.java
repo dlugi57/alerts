@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
+import com.safetynet.alerts.dto.PersonFireStation;
 import com.safetynet.alerts.dto.PersonsInFireStationArea;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -129,11 +130,19 @@ public class FireStationServiceImpl implements FireStationService {
                         }
 
                         // TODO: 10/09/2020 how to hide some fileds like zip code?
-                        List<Person> personsInArea = personsInFireStationArea.getPersons();
+                        List<PersonFireStation> personsInArea = personsInFireStationArea.getPersons();
                         if (personsInArea == null) {
-                            personsInArea = new ArrayList<Person>();
+                            personsInArea = new ArrayList<PersonFireStation>();
                         }
-                        personsInArea.add(person);
+
+                        PersonFireStation personFireStation = new PersonFireStation();
+
+                        personFireStation.setFirstName(person.getFirstName());
+                        personFireStation.setLastName(person.getLastName());
+                        personFireStation.setAddress(person.getAddress());
+                        personFireStation.setPhone(person.getPhone());
+
+                        personsInArea.add(personFireStation);
                         personsInFireStationArea.setPersons(personsInArea);
 
 

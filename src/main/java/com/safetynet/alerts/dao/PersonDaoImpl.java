@@ -70,7 +70,6 @@ public class PersonDaoImpl implements PersonDao {
         for (Person existingPerson : personList) {
             if (existingPerson.getFirstName().equalsIgnoreCase(person.getFirstName())
                     && existingPerson.getLastName().equalsIgnoreCase(person.getLastName())) {
-                // TODO: 05/09/2020 if that is a correct way to remove ?
                 personList.remove(existingPerson);
                 return true;
             }

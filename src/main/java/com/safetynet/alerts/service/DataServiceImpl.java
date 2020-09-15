@@ -32,7 +32,6 @@ public class DataServiceImpl implements DataService {
 
             String jsonString = mapper.writeValueAsString(dataAlert);
             System.out.println(jsonString);
-            // TODO: 09/09/2020 how to remove duplicates
 
             List<FireStation> result = new ArrayList<FireStation>();
             Set<String> titles = new HashSet<String>();

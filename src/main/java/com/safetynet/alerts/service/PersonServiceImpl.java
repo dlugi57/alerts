@@ -141,6 +141,7 @@ public class PersonServiceImpl implements PersonService {
                 personsFire.add(personFire);
             }*/
             // TODO: 14/09/2020 how to resolve this warning
+            // TODO: 15/09/2020 is better to send the empty list than null 
             if (!personsFire.isEmpty()){
                 personsAndStationByAddress = new PersonsAndStationByAddress();
                 personsAndStationByAddress.setPersons(personsFire);

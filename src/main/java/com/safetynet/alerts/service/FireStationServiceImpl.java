@@ -79,7 +79,6 @@ public class FireStationServiceImpl implements FireStationService {
     @Override
     public boolean deleteFireStation(FireStation fireStation) {
 
-        // TODO: 08/09/2020 make three checks and then 3 deletes
 
         if (fireStation.getStation() != 0 && fireStation.getAddress() == null) {
             List<FireStation> checkFireStations = fireStationDao.getFireStationsByStationId(fireStation.getStation());
@@ -119,7 +118,7 @@ public class FireStationServiceImpl implements FireStationService {
                         if (personMedicalRecord != null) {
 
                             Integer age = AgeCalculator.calculateAge(personMedicalRecord.getBirthdate());
-                            // TODO: 09/09/2020 how to do this in proper way
+
                             if (age <= 18) {
                                 personsInFireStationArea.setChildQty(personsInFireStationArea.getChildQty() + 1);
 
@@ -129,7 +128,6 @@ public class FireStationServiceImpl implements FireStationService {
                             }
                         }
 
-                        // TODO: 10/09/2020 how to hide some fileds like zip code?
                         List<PersonFireStation> personsInArea = personsInFireStationArea.getPersons();
                         if (personsInArea == null) {
                             personsInArea = new ArrayList<PersonFireStation>();

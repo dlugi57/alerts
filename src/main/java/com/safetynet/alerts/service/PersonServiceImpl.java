@@ -80,7 +80,7 @@ public class PersonServiceImpl implements PersonService {
         List<PersonAlert> adults = new ArrayList<>();
         ChildrenByAddress childrenByAddress = new ChildrenByAddress();
 
-        if (persons != null) {
+        if (persons != null && !persons.isEmpty()) {
             for (Person person : persons) {
                 PersonAlert personAlert = new PersonAlert();
 
@@ -103,13 +103,14 @@ public class PersonServiceImpl implements PersonService {
                 childrenByAddress.setChildren(children);
                 childrenByAddress.setAdults(adults);
             }
+            return childrenByAddress;
         }
 
 /*        if (childrenByAddress != null) {
             return childrenByAddress;
         }*/
+        return null;
 
-        return childrenByAddress;
     }
 
     @Override
@@ -120,8 +121,8 @@ public class PersonServiceImpl implements PersonService {
         PersonsAndStationByAddress personsAndStationByAddress = null;
         //List<PersonFire> personsFire = new ArrayList<PersonFire>();
 
-        if (persons != null) {
-            List<PersonFire> personsFire  = parsePersonsFire(persons);
+        if (persons != null && !persons.isEmpty()) {
+            List<PersonFire> personsFire = parsePersonsFire(persons);
 /*            for (Person person : persons) {
                 PersonFire personFire = new PersonFire();
 
@@ -142,10 +143,10 @@ public class PersonServiceImpl implements PersonService {
             }*/
             // TODO: 14/09/2020 how to resolve this warning
             // TODO: 15/09/2020 is better to send the empty list than null 
-            if (!personsFire.isEmpty()){
-                personsAndStationByAddress = new PersonsAndStationByAddress();
-                personsAndStationByAddress.setPersons(personsFire);
-            }
+            //if (!personsFire.isEmpty()){
+            personsAndStationByAddress = new PersonsAndStationByAddress();
+            personsAndStationByAddress.setPersons(personsFire);
+            //}
 
         }
 
@@ -198,7 +199,7 @@ public class PersonServiceImpl implements PersonService {
                                 personsFire.add(personFire);
                             }*/
 
-                            if (personsFire!= null){
+                            if (personsFire != null) {
                                 personsAndAddressesByStation = new PersonsAndAddressesByStation();
                                 personsAndAddressesByStation.setPersons(personsFire);
                             }
@@ -238,11 +239,11 @@ public class PersonServiceImpl implements PersonService {
         Person person = personDao.getByFirstNameAndLastName(firstName, lastName);
         List<PersonInfo> personsInfo = new ArrayList<>();
 
-        if (person != null){
+        if (person != null) {
 
             List<Person> persons = personDao.getPersonsByAddress(person.getAddress());
-            if (persons != null || !persons.isEmpty()){
-                for (Person personFromList : persons){
+            if (persons != null || !persons.isEmpty()) {
+                for (Person personFromList : persons) {
                     PersonInfo personInfo = new PersonInfo();
 
                     MedicalRecord personMedicalRecord =
@@ -262,11 +263,10 @@ public class PersonServiceImpl implements PersonService {
                     personsInfo.add(personInfo);
                 }
 
-                if (!personsInfo.isEmpty()){
+                if (!personsInfo.isEmpty()) {
                     return personsInfo;
                 }
             }
-
 
 
         }
@@ -277,14 +277,14 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<String> getCommunityEmails(String city) {
-        List <Person> persons = personDao.getPersonsByCity(city);
-        List <String> communityEmails = new ArrayList<>();
-        if (persons != null && !persons.isEmpty()){
-            for (Person person:persons){
+        List<Person> persons = personDao.getPersonsByCity(city);
+        List<String> communityEmails = new ArrayList<>();
+        if (persons != null && !persons.isEmpty()) {
+            for (Person person : persons) {
                 communityEmails.add(person.getEmail());
             }
 
-            if (!communityEmails.isEmpty()){
+            if (!communityEmails.isEmpty()) {
                 return communityEmails;
             }
         }
@@ -312,9 +312,9 @@ public class PersonServiceImpl implements PersonService {
 
             personsFire.add(personFire);
         }
-        if (!personsFire.isEmpty()){
+        if (!personsFire.isEmpty()) {
             return personsFire;
         }
-    return null;
+        return null;
     }
 }

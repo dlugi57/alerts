@@ -13,6 +13,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Fire station controller class which gives as possibilities of CRUD every fire station data
+ */
 @RestController
 public class FireStationController {
 

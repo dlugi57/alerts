@@ -14,6 +14,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Medical records controller class which gives as possibilities of CRUD every fire medical record data
+ */
 @RestController
 public class MedicalRecordController {
 

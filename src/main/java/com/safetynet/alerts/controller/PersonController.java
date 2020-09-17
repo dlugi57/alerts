@@ -13,6 +13,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Person controller class which gives as possibilities of CRUD every person data
+ */
 @RestController
 public class PersonController {
 

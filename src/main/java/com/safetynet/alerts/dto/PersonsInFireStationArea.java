@@ -1,14 +1,10 @@
 package com.safetynet.alerts.dto;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.safetynet.alerts.model.Person;
-
 import java.util.List;
 
 public class PersonsInFireStationArea {
     private int childQty;
     private int adultQty;
-
 
     private List<PersonFireStation> persons;
 

@@ -100,7 +100,7 @@ public class FireStationServiceImpl implements FireStationService {
         PersonsInFireStationArea personsInFireStationArea = new PersonsInFireStationArea();
 
 
-        if (fireStations != null) {
+        if (fireStations != null && !fireStations.isEmpty()) {
 
             for (FireStation fireStation : fireStations) {
                 String address = fireStation.getAddress();

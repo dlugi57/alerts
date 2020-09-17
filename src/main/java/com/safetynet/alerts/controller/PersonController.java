@@ -112,7 +112,7 @@ public class PersonController {
         List<Person> persons = personService.getPersons();
 
         // if there is no persons in data base send error message
-        if (persons == null || persons.isEmpty()){
+        if (persons == null || persons.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no persons in the data base");
         }
 

@@ -1,6 +1,5 @@
-package com.safetynet.alerts;
+package com.safetynet.alerts.util;
 
-import com.safetynet.alerts.util.AgeCalculator;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 

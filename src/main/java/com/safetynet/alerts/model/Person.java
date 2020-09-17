@@ -1,19 +1,9 @@
 package com.safetynet.alerts.model;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Email;
 import java.util.Objects;
 
 public class Person {
-
-    //"firstName":"John", "lastName":"Boyd", "address":"1509 Culver St", "city":"Culver", "zip":"97451", "phone":"841-874-6512", "email":"jaboyd@email.com"
-
-    // TODO: 09/09/2020  set safety for invalid chaines
 
     @NotBlank(message = "Please enter the first name")
     private String firstName;
@@ -21,7 +11,6 @@ public class Person {
     @NotBlank(message = "Please enter the last name")
     private String lastName;
 
-    @Length(min = 3, message = "Please provide correct address")
     private String address;
 
     private String city;
@@ -30,10 +19,9 @@ public class Person {
 
     private String phone;
 
-    @Email(message = "Email should be valid")
     private String email;
 
-    public Person(@NotBlank(message = "Please enter the first name") String firstName, @NotBlank(message = "Please enter the last name") String lastName, @Length(min = 3, message = "Please provide correct address") String address, String city, String zip, String phone, @Email(message = "Email should be valid") String email) {
+    public Person(@NotBlank(message = "Please enter the first name") String firstName, @NotBlank(message = "Please enter the last name") String lastName, String address, String city, String zip, String phone, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

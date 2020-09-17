@@ -1,13 +1,18 @@
 package com.safetynet.alerts.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class FireStation {
 
-    //"address":"1509 Culver St", "station":"3"
+    @NotBlank(message = "Please enter the address")
     private String address;
-
+    @NotNull(message = "Please enter the station id")
+    @Min(value = 1)
     private int station;
 
-    public FireStation(String address, int station) {
+    public FireStation(@NotBlank(message = "Please enter the address") String address,@NotNull(message = "Please enter the station id") int station) {
         this.address = address;
         this.station = station;
     }

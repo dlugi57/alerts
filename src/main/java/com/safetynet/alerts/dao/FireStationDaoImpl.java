@@ -135,12 +135,8 @@ public class FireStationDaoImpl implements FireStationDao {
      */
     @Override
     public void deleteFireStationsByStation(int station) {
-
-        for (FireStation fireStation : new ArrayList<>(fireStations)) {
-            if (fireStation.getStation() == station) {
-                fireStations.remove(fireStation);
-            }
-        }
+        // TODO: 19/09/2020 this is fucking amazing  
+        fireStations.removeIf(fireStation -> fireStation.getStation() == station);
     }
 
     /**

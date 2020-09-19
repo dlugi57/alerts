@@ -1,7 +1,5 @@
 package com.safetynet.alerts.dto;
 
-import com.safetynet.alerts.model.Person;
-
 import java.util.List;
 
 public class ChildrenByAddress {

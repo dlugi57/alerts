@@ -3,6 +3,8 @@ package com.safetynet.alerts.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.DataAlert;
 import com.safetynet.alerts.model.FireStation;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -12,30 +14,48 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Get data from file and set it into object
+ */
 @Service
 public class DataServiceImpl implements DataService {
 
+    // Initialization of data object
     DataAlert dataAlert;
 
+    // logger init
+    private static final Logger logger = LogManager
+            .getLogger(DataServiceImpl.class);
+
+
+    /**
+     * Get all data from object
+     *
+     * @return data alert object
+     */
     @Override
     public DataAlert getDataAlert() {
         return this.dataAlert;
     }
 
+    /**
+     * When start application read and save to object data from file
+     */
     @PostConstruct
     public void run() {
+        // get file
         try (InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("data.json")) {
-
+            // init of mapper
             ObjectMapper mapper = new ObjectMapper();
-
+            // read data
             dataAlert = mapper.readValue(in, DataAlert.class);
 
             String jsonString = mapper.writeValueAsString(dataAlert);
-            System.out.println(jsonString);
+            logger.debug(jsonString);
 
-            List<FireStation> result = new ArrayList<FireStation>();
-            Set<String> titles = new HashSet<String>();
-
+            // delete all duplicates from fire stations
+            List<FireStation> result = new ArrayList<>();
+            Set<String> titles = new HashSet<>();
             for (FireStation fireStation : dataAlert.getFirestations()) {
                 if (titles.add(fireStation.getAddress())) {
                     result.add(fireStation);
@@ -43,7 +63,6 @@ public class DataServiceImpl implements DataService {
             }
 
             dataAlert.setFirestations(result);
-
 
         } catch (Exception e) {
             throw new RuntimeException(e);

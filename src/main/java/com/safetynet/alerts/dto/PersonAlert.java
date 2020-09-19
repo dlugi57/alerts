@@ -1,7 +1,5 @@
 package com.safetynet.alerts.dto;
 
-import javax.validation.constraints.NotBlank;
-
 public class PersonAlert {
 
     private String firstName;
@@ -16,7 +14,7 @@ public class PersonAlert {
         this.age = age;
     }
 
-    public PersonAlert(){};
+    public PersonAlert(){}
 
     public String getFirstName() {
         return firstName;

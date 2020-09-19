@@ -1,7 +1,7 @@
 package com.safetynet.alerts.dto;
 
 public class PersonFireStation {
-    //prénom, nom, adresse, numéro de téléphone
+
     private String firstName;
 
     private String lastName;

@@ -18,7 +18,6 @@ public class FireStationDaoImpl implements FireStationDao {
     // list of fire stations
     private List<FireStation> fireStations;
 
-    //
 
     /**
      * initialization of data to the fire station list
@@ -135,7 +134,6 @@ public class FireStationDaoImpl implements FireStationDao {
      */
     @Override
     public void deleteFireStationsByStation(int station) {
-        // TODO: 19/09/2020 this is fucking amazing  
         fireStations.removeIf(fireStation -> fireStation.getStation() == station);
     }
 

@@ -1,5 +1,10 @@
 package com.safetynet.alerts.util;
 
+import com.safetynet.alerts.controller.MainController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpStatus;
+
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -7,6 +12,9 @@ import java.time.Period;
  * Convert date formats to age
  */
 public class AgeCalculator {
+
+    static final Logger logger = LogManager
+            .getLogger(AgeCalculator.class);
 
     /**
      * COnvers local date to age
@@ -20,6 +28,7 @@ public class AgeCalculator {
         if (birthDate != null) {
             return Period.between(birthDate, currentDate).getYears();
         } else {
+            logger.error("Method: calculateAge /**/ Message: The date is not available");
             return 0;
         }
     }

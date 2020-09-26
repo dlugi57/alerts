@@ -8,6 +8,8 @@ import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.util.AgeCalculator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ import java.util.List;
  */
 @Service
 public class PersonServiceImpl implements PersonService {
+
+    // logger init
+    private static final Logger logger = LogManager
+            .getLogger(PersonServiceImpl.class);
 
     // initialize objects
     PersonDao personDao;
@@ -335,6 +341,9 @@ public class PersonServiceImpl implements PersonService {
      * @return list of DTO persons
      */
     private List<PersonFire> parsePersonsFire(List<Person> persons) {
+        logger.debug("Methode : parsePersonsFire /**/ Start parsing person data and set it to the" +
+                " new DTO model person");
+
         // initialize empty list of DTO persons
         List<PersonFire> personsFire = new ArrayList<>();
 
@@ -353,7 +362,6 @@ public class PersonServiceImpl implements PersonService {
                 personFire.setPhone(person.getPhone());
                 personFire.setAllergies(personMedicalRecord.getAllergies());
                 personFire.setMedications(personMedicalRecord.getMedications());
-
             }
             // increment list
             personsFire.add(personFire);
@@ -362,6 +370,7 @@ public class PersonServiceImpl implements PersonService {
         if (!personsFire.isEmpty()) {
             return personsFire;
         }
+        logger.error("Methode : parsePersonsFire /**/ Error when parsing person data");
 
         return null;
     }

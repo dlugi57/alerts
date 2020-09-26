@@ -51,17 +51,18 @@ public class DataServiceImpl implements DataService {
             dataAlert = mapper.readValue(in, DataAlert.class);
 
             String jsonString = mapper.writeValueAsString(dataAlert);
-            logger.debug(jsonString);
+            logger.debug("Data initialized -> '{}'", jsonString);
 
             // delete all duplicates from fire stations
             List<FireStation> result = new ArrayList<>();
             Set<String> titles = new HashSet<>();
+            logger.debug("Start of deletion of fire station duplicates");
             for (FireStation fireStation : dataAlert.getFirestations()) {
                 if (titles.add(fireStation.getAddress())) {
                     result.add(fireStation);
                 }
             }
-
+            logger.debug("Fire station without duplicates initialized");
             dataAlert.setFirestations(result);
 
         } catch (Exception e) {

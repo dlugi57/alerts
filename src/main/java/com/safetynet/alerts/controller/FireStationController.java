@@ -51,7 +51,8 @@ public class FireStationController {
         List<FireStation> fireStations = fireStationService.getFireStationsByStationId(station);
         // send error message when is empty
         if (fireStations == null || fireStations.isEmpty()) {
-            logger.error("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  Fire stations with this id " + station + " don't exist");
+            logger.error("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message :  Fire stations with this id " + station + " don't exist");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this id " + station + " don't exist");
 
         }
@@ -74,7 +75,8 @@ public class FireStationController {
         FireStation fireStation = fireStationService.getFireStationByStationAddress(address);
         // if station don't exist send error message
         if (fireStation == null) {
-            logger.error("GET firestation -> getFireStationByStationAddress /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  Fire stations with this address " + address + " don't exist");
+            logger.error("GET firestation -> getFireStationByStationAddress /**/ HttpStatus : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message :  Fire stations with this address " + address + " don't exist");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this address " + address + " don't exist");
         }
 
@@ -144,7 +146,8 @@ public class FireStationController {
     public void deleteFireStation(@RequestBody FireStation fireStation) {
         // if fire station don't exist send error message
         if (!fireStationService.deleteFireStation(fireStation)) {
-            logger.error("DELETE firestation -> deleteFireStation /**/ Result : " + HttpStatus.NOT_FOUND + " /**/ Message : This fire station don't exist: '{}'.", fireStation.toString());
+            logger.error("DELETE firestation -> deleteFireStation /**/ Result : " + HttpStatus.NOT_FOUND
+                    + " /**/ Message : This fire station don't exist: '{}'.", fireStation.toString());
 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This fire station don't exist");
         }
@@ -166,7 +169,6 @@ public class FireStationController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no fire station in the data base");
         }
         logger.info("GET firestations -> getFireStations /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", fireStations.toString());
-
 
         return fireStations;
     }

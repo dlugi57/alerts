@@ -2,6 +2,8 @@ package com.safetynet.alerts.controller;
 
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.service.FireStationService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import java.util.List;
  */
 @RestController
 public class FireStationController {
+
+    static final Logger logger = LogManager
+            .getLogger(FireStationController.class);
 
     // Service initialization
     FireStationService fireStationService;
@@ -45,8 +50,13 @@ public class FireStationController {
 
         List<FireStation> fireStations = fireStationService.getFireStationsByStationId(station);
         // send error message when is empty
-        if (fireStations == null || fireStations.isEmpty())
+        if (fireStations == null || fireStations.isEmpty()) {
+            logger.error("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  Fire stations with this id " + station + " don't exist");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this id " + station + " don't exist");
+
+        }
+
+        logger.info("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", fireStations.toString());
 
         return fireStations;
     }
@@ -63,8 +73,12 @@ public class FireStationController {
 
         FireStation fireStation = fireStationService.getFireStationByStationAddress(address);
         // if station don't exist send error message
-        if (fireStation == null)
+        if (fireStation == null) {
+            logger.error("GET firestation -> getFireStationByStationAddress /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  Fire stations with this address " + address + " don't exist");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire station with this address " + address + " don't exist");
+        }
+
+        logger.info("GET firestation -> getFireStationByStationAddress /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", fireStation.toString());
 
         return fireStation;
     }
@@ -81,12 +95,16 @@ public class FireStationController {
 
         // if the station already exist with this address and id send error message
         if (!fireStationService.addFireStation(fireStation)) {
+            logger.error("POST firestation -> addFireStation /**/ HttpStatus : " + HttpStatus.CONFLICT + " /**/ Message :  This station already exist");
+
             throw new ResponseStatusException(HttpStatus.CONFLICT, "This station already exist");
         }
 
         // Create uri with new added fire station
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{address}")
                 .buildAndExpand(fireStation.getAddress()).toUri();
+
+        logger.info("POST firestation -> addFireStation /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ Result : '{}'.", location);
 
         return ResponseEntity.created(location).build();
     }
@@ -98,17 +116,20 @@ public class FireStationController {
      * @return status and url in the header of response
      */
     @PutMapping(value = "/firestation")
-    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<Void> updateFireStation(@Valid @RequestBody FireStation fireStation) {
 
         // if fire station don't exist send error message
         if (!fireStationService.updateFireStation(fireStation)) {
+            logger.error("PUT firestation -> updateFireStation /**/ HttpStatus : " + HttpStatus.NOT_FOUND + " /**/ Message :  This fire station don't exist");
+
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This fire station don't exist");
         }
 
         // Create uri with updated fire station
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
                 .queryParam("address", fireStation.getAddress()).build().toUri();
+
+        logger.info("PUT firestation -> updateFireStation /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ Result : '{}'.", location);
 
         return ResponseEntity.created(location).build();
     }
@@ -123,8 +144,11 @@ public class FireStationController {
     public void deleteFireStation(@RequestBody FireStation fireStation) {
         // if fire station don't exist send error message
         if (!fireStationService.deleteFireStation(fireStation)) {
+            logger.error("DELETE firestation -> deleteFireStation /**/ Result : " + HttpStatus.NOT_FOUND + " /**/ Message : This fire station don't exist: '{}'.", fireStation.toString());
+
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This fire station don't exist");
         }
+        logger.info("DELETE firestation -> deleteFireStation /**/ HttpStatus : " + HttpStatus.OK);
     }
 
     /**
@@ -137,8 +161,12 @@ public class FireStationController {
         List<FireStation> fireStations = fireStationService.getFireStations();
 
         if (fireStations == null || fireStations.isEmpty()) {
+            logger.error("GET firestations -> getFireStations /**/ Result : " + HttpStatus.NOT_FOUND + " /**/ Message : There is no persons in the data base");
+
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is no fire station in the data base");
         }
+        logger.info("GET firestations -> getFireStations /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", fireStations.toString());
+
 
         return fireStations;
     }

@@ -31,16 +31,16 @@ class PersonControllerTest {
     @MockBean
     private PersonService service;
 
-    public static List<Person> personList = new ArrayList<>();
+    //public static List<Person> personList = new ArrayList<>();
 
-    static {
+/*    static {
         personList.add(new Person("John", "Boyd", "1509 Culver St", "Culver",
                 "97451", "841-874-6512", "jaboyd@email.com"));
         personList.add(new Person("Jacob", "Boyd", "1509 Culver St",
                 "Culver", "97451", "841-874-6513", "drk@email.com"));
         personList.add(new Person("Tenley", "Boyd", "1509 Culver St",
                 "Culver", "97451", "841-874-6512", "tenz@email.com"));
-    }
+    }*/
 
     //GET
     @Test
@@ -196,7 +196,15 @@ class PersonControllerTest {
         this.mockMvc.perform(get("/persons")
                 //.content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lastName").value("Boyd"));
+        // TODO: 29/09/2020  
+        /*
+        * .andExpect(jsonPath("$.persons", hasSize(1)))
+.andExpect(jsonPath("$.adults", is(0)))
+.andExpect(jsonPath("$.children", is(1)))
+.andExpect(jsonPath("$.persons[0].firstName", is(p.getFirstName())));
+        * */
     }
 
     @Test

@@ -130,7 +130,6 @@ public class MedicalRecordController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This medical record don't exist");
         }
         logger.info("DELETE medicalrecord -> deleteMedicalRecord /**/ HttpStatus : " + HttpStatus.OK);
-
     }
 
     /**

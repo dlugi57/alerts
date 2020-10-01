@@ -1,7 +1,6 @@
 package com.safetynet.alerts.model;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Objects;
 
 public class Person {
 
@@ -89,25 +88,6 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return Objects.equals(firstName, person.firstName) &&
-                Objects.equals(lastName, person.lastName) &&
-                Objects.equals(address, person.address) &&
-                Objects.equals(city, person.city) &&
-                Objects.equals(zip, person.zip) &&
-                Objects.equals(phone, person.phone) &&
-                Objects.equals(email, person.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName, address, city, zip, phone, email);
     }
 
     @Override

@@ -16,4 +16,13 @@ public class AgeCalculatorTest {
         // assert
         Assert.assertEquals(59, actual);
     }
+
+    @Test
+    public void testCalculateAge_Null() {
+
+        // exercise
+        int actual = AgeCalculator.calculateAge(null);
+        // assert
+        Assert.assertEquals(0, actual);
+    }
 }

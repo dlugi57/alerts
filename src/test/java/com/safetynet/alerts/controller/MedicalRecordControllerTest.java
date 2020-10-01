@@ -23,13 +23,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(MedicalRecordController.class)
 class MedicalRecordControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private MedicalRecordService service;
-
 
     public static List<MedicalRecord> medicalRecordList = new ArrayList<>();
 

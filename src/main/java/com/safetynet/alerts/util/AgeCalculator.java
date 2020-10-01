@@ -1,9 +1,7 @@
 package com.safetynet.alerts.util;
 
-import com.safetynet.alerts.controller.MainController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -18,6 +16,7 @@ public class AgeCalculator {
 
     /**
      * COnvers local date to age
+     *
      * @param birthDate local date
      * @return years
      */

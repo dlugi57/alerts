@@ -54,7 +54,6 @@ public class FireStationController {
             logger.error("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.NOT_FOUND
                     + " /**/ Message :  Fire stations with this id " + station + " don't exist");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Fire stations with this id " + station + " don't exist");
-
         }
 
         logger.info("GET firestations -> getFireStationsByStationId /**/ HttpStatus : " + HttpStatus.OK + " /**/ Result : '{}'.", fireStations.toString());
@@ -128,8 +127,8 @@ public class FireStationController {
         }
 
         // Create uri with updated fire station
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/")
-                .queryParam("address", fireStation.getAddress()).build().toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/"+ fireStation.getAddress())
+                .build().toUri();
 
         logger.info("PUT firestation -> updateFireStation /**/ HttpStatus : " + HttpStatus.CREATED + " /**/ Result : '{}'.", location);
 

@@ -13,12 +13,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@SpringBootTest
 //@AutoConfigureMockMvc
@@ -31,16 +33,15 @@ class PersonControllerTest {
     @MockBean
     private PersonService service;
 
-    //public static List<Person> personList = new ArrayList<>();
-
-/*    static {
+    public static List<Person> personList = new ArrayList<>();
+    static {
         personList.add(new Person("John", "Boyd", "1509 Culver St", "Culver",
                 "97451", "841-874-6512", "jaboyd@email.com"));
         personList.add(new Person("Jacob", "Boyd", "1509 Culver St",
                 "Culver", "97451", "841-874-6513", "drk@email.com"));
         personList.add(new Person("Tenley", "Boyd", "1509 Culver St",
                 "Culver", "97451", "841-874-6512", "tenz@email.com"));
-    }*/
+    }
 
     //GET
     @Test
@@ -58,7 +59,6 @@ class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lastName").value("Boyd"))
                 .andExpect(jsonPath("$.firstName").value("John"));
-
     }
 
     @Test
@@ -72,7 +72,6 @@ class PersonControllerTest {
                 .param("firstName", "John")
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
-
     }
 
     //POST
@@ -87,10 +86,10 @@ class PersonControllerTest {
         when(service.addPerson(any(Person.class))).thenReturn(true);
 
         this.mockMvc.perform(post("/person")
-                //.content("{\"firstName\":\"Piotr\",\"lastName\":\"Dlugosz\","
-                // +"\"address\":\"1509 Culver St\",\"city\":\"Culver\"}"))
                 .content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
+                .andDo(print())
+                .andExpect(header().string("Location", "http://localhost/person/?firstName=Piotr&lastName=Dlugosz"))
                 .andExpect(status().isCreated());
     }
 
@@ -105,8 +104,6 @@ class PersonControllerTest {
         when(service.addPerson(any(Person.class))).thenReturn(false);
 
         this.mockMvc.perform(post("/person")
-                //.content("{\"firstName\":\"Piotr\",\"lastName\":\"Dlugosz\","
-                // +"\"address\":\"1509 Culver St\",\"city\":\"Culver\"}"))
                 .content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
                 .andExpect(status().isConflict());
@@ -127,6 +124,8 @@ class PersonControllerTest {
         this.mockMvc.perform(put("/person")
                 .content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
+                .andDo(print())
+                .andExpect(header().string("Location", "http://localhost/person/?firstName=Piotr&lastName=Dlugosz"))
                 .andExpect(status().isCreated());
     }
 
@@ -161,7 +160,6 @@ class PersonControllerTest {
                 .content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -177,44 +175,34 @@ class PersonControllerTest {
                 .content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test
     void getPersons() throws Exception {
-        List<Person> personList = new ArrayList<>();
-
-        personList.add(new Person("John", "Boyd", "1509 Culver St", "Culver",
-                "97451", "841-874-6512", "jaboyd@email.com"));
-        personList.add(new Person("Jacob", "Boyd", "1509 Culver St",
-                "Culver", "97451", "841-874-6513", "drk@email.com"));
-        personList.add(new Person("Tenley", "Boyd", "1509 Culver St",
-                "Culver", "97451", "841-874-6512", "tenz@email.com"));
 
         when(service.getPersons()).thenReturn(personList);
 
         this.mockMvc.perform(get("/persons")
-                //.content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.lastName").value("Boyd"));
+                .andExpect(jsonPath("$.[0].lastName").value("Boyd"))
+                .andExpect(jsonPath("$", hasSize(3)));
         // TODO: 29/09/2020  
         /*
-        * .andExpect(jsonPath("$.persons", hasSize(1)))
-.andExpect(jsonPath("$.adults", is(0)))
-.andExpect(jsonPath("$.children", is(1)))
-.andExpect(jsonPath("$.persons[0].firstName", is(p.getFirstName())));
-        * */
+          .andExpect(jsonPath("$.persons", hasSize(1)))
+          .andExpect(jsonPath("$.adults", is(0)))
+          .andExpect(jsonPath("$.children", is(1)))
+          .andExpect(jsonPath("$.persons[0].firstName", is(p.getFirstName())));
+        */
     }
 
     @Test
     void getPersonsNull() throws Exception {
 
-
         when(service.getPersons()).thenReturn(null);
 
         this.mockMvc.perform(get("/persons")
-                //.content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
     }
@@ -222,11 +210,9 @@ class PersonControllerTest {
     @Test
     void getPersonsEmpty() throws Exception {
 
-
         when(service.getPersons()).thenReturn(Collections.emptyList());
 
         this.mockMvc.perform(get("/persons")
-                //.content((mapper.writeValueAsString(person)))
                 .contentType("application/json"))
                 .andExpect(status().isNotFound());
     }

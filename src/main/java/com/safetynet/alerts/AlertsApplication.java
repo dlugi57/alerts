@@ -21,7 +21,6 @@ public class AlertsApplication {
         logger.error(".................................................................................");
     }
 
-    // TODO: 09/09/2020 how to create clone of object ?
 }
 
 

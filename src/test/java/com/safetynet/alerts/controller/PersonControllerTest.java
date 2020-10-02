@@ -188,13 +188,6 @@ class PersonControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].lastName").value("Boyd"))
                 .andExpect(jsonPath("$", hasSize(3)));
-        // TODO: 29/09/2020  
-        /*
-          .andExpect(jsonPath("$.persons", hasSize(1)))
-          .andExpect(jsonPath("$.adults", is(0)))
-          .andExpect(jsonPath("$.children", is(1)))
-          .andExpect(jsonPath("$.persons[0].firstName", is(p.getFirstName())));
-        */
     }
 
     @Test

@@ -24,6 +24,8 @@ public class FireStationServiceImpl implements FireStationService {
     // initialize objects
     //@Autowired
     FireStationDao fireStationDao;
+    PersonDao personDao;
+    MedicalRecordDao medicalRecordDao;
 
     // TODO: 06/10/2020 this method for injection was proposed because when field injection error shows in intellij apparently field injection is not recomended 
 
@@ -33,13 +35,30 @@ public class FireStationServiceImpl implements FireStationService {
      * @param fireStationDao fire station dao
      */
     @Autowired
-    public void setInjectedBean(FireStationDao fireStationDao) {
+    public void setFireStationDao(FireStationDao fireStationDao) {
         this.fireStationDao = fireStationDao;
     }
+
+
+    /**
+     * Field injection of person dao
+     *
+     * @param personDao person dao
+     */
     @Autowired
-    PersonDao personDao;
+    public void setPersonDao(PersonDao personDao) {
+        this.personDao = personDao;
+    }
+
+    /**
+     * Field injection of medical record dao
+     *
+     * @param medicalRecordDao medical record dao
+     */
     @Autowired
-    MedicalRecordDao medicalRecordDao;
+    public void setMedicalRecordDao(MedicalRecordDao medicalRecordDao) {
+        this.medicalRecordDao = medicalRecordDao;
+    }
 
 
     /**

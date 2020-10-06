@@ -32,16 +32,32 @@ public class PersonServiceImpl implements PersonService {
     FireStationDao fireStationDao;
 
     /**
-     * Initialize person service with data from DAO
+     * Field injection of person dao
      *
-     * @param personDao        person data
-     * @param medicalRecordDao medical record data
-     * @param fireStationDao   fire station data
+     * @param personDao person data
      */
     @Autowired
-    public PersonServiceImpl(PersonDao personDao, MedicalRecordDao medicalRecordDao, FireStationDao fireStationDao) {
+    public void setPersonDao(PersonDao personDao) {
         this.personDao = personDao;
+    }
+
+    /**
+     * Field injection of medical record dao
+     *
+     * @param medicalRecordDao medical record data
+     */
+    @Autowired
+    public void setMedicalRecordDao(MedicalRecordDao medicalRecordDao) {
         this.medicalRecordDao = medicalRecordDao;
+    }
+
+    /**
+     * Field injection of medical record dao
+     *
+     * @param fireStationDao fire station data
+     */
+    @Autowired
+    public void setFireStationDao(FireStationDao fireStationDao) {
         this.fireStationDao = fireStationDao;
     }
 

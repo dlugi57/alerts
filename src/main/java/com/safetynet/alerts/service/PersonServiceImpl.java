@@ -204,7 +204,7 @@ public class PersonServiceImpl implements PersonService {
             // parse data and create list of DTO persons
             List<PersonFire> personsFire = parsePersonsFire(persons);
             // initialize DTO object and set data
-            if (personsFire != null) {
+            if (!personsFire.isEmpty()) {
                 personsAndStationByAddress = new PersonsAndStationByAddress();
                 personsAndStationByAddress.setPersons(personsFire);
             }
@@ -251,7 +251,7 @@ public class PersonServiceImpl implements PersonService {
                             // parse data and create list of DTO persons
                             List<PersonFire> personsFire = parsePersonsFire(persons);
                             // initialize DTO object and set data
-                            if (personsFire != null) {
+                            if (!personsFire.isEmpty()) {
                                 personsAndAddressesByStation = new PersonsAndAddressesByStation();
                                 personsAndAddressesByStation.setPersons(personsFire);
                             }
@@ -382,12 +382,6 @@ public class PersonServiceImpl implements PersonService {
             // increment list
             personsFire.add(personFire);
         }
-        // if there is a results send it
-        if (!personsFire.isEmpty()) {
-            return personsFire;
-        }
-        logger.error("Methode : parsePersonsFire /**/ Error when parsing person data");
-
-        return null;
+        return personsFire;
     }
 }

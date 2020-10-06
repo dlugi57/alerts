@@ -22,23 +22,25 @@ import java.util.List;
 public class FireStationServiceImpl implements FireStationService {
 
     // initialize objects
+    //@Autowired
     FireStationDao fireStationDao;
-    PersonDao personDao;
-    MedicalRecordDao medicalRecordDao;
+
+    // TODO: 06/10/2020 this method for injection was proposed because when field injection error shows in intellij apparently field injection is not recomended 
 
     /**
-     * Initialize service objects with data from dao
+     * Field injection of fire station dao
      *
-     * @param fireStationDao   Fire station
-     * @param personDao        Person
-     * @param medicalRecordDao Medical record
+     * @param fireStationDao fire station dao
      */
     @Autowired
-    public FireStationServiceImpl(FireStationDao fireStationDao, PersonDao personDao, MedicalRecordDao medicalRecordDao) {
+    public void setInjectedBean(FireStationDao fireStationDao) {
         this.fireStationDao = fireStationDao;
-        this.personDao = personDao;
-        this.medicalRecordDao = medicalRecordDao;
     }
+    @Autowired
+    PersonDao personDao;
+    @Autowired
+    MedicalRecordDao medicalRecordDao;
+
 
     /**
      * Get fire stations by station id

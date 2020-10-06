@@ -10,12 +10,12 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,11 +26,18 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
-@AutoConfigureMockMvc
 class FireStationServiceTest {
 
-    @Autowired
+    @TestConfiguration
+    static class FireStationServiceImplTestContextConfiguration {
+        @Bean
+        public FireStationService fireStationService() {
+            return new FireStationServiceImpl();
+        }
+    }
+
+    // TODO: 06/10/2020 when put autowired warning shows in intellij  
+    @Resource
     FireStationService fireStationService;
     @MockBean
     FireStationDao fireStationDao;
@@ -38,7 +45,6 @@ class FireStationServiceTest {
     PersonDao personDao;
     @MockBean
     MedicalRecordDao medicalRecordDao;
-
 
     public static List<FireStation> fireStations = new ArrayList<>();
 

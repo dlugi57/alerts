@@ -176,7 +176,6 @@ class MainControllerTest {
 
     public static List<PersonFire> personsFire = new ArrayList<>();
 
-    // TODO: 02/10/2020 how to create array in this example
     static {
         personsFire.add(new PersonFire("Boyd", "841-874-6512", 36, Arrays.asList("aznol:350mg", "hydrapermazol:100mg"),
                 Collections.singletonList("nillacilan")));

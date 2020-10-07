@@ -66,7 +66,7 @@ public class DataServiceImpl implements DataService {
             dataAlert.setFirestations(result);
 
         } catch (Exception e) {
-
+            // TODO: 07/10/2020 how to test this exception
             logger.error("Method : run /**/ Message : error when reading file '{}'.", e.toString());
 
             throw new RuntimeException(e);

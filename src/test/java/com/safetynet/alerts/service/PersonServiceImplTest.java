@@ -638,13 +638,23 @@ class PersonServiceTest {
         assertThat(emails).isEqualTo(null);
     }
 
+    public static List<Person> personsWithoutMail = new ArrayList<>();
+
+    static {
+        personsWithoutMail.add(new Person("John", "Boyd", "1509 Culver St", "Culver",
+                "97451", "841-874-6512", null));
+        personsWithoutMail.add(new Person("Jacob", "Boyd", "1509 Culver St",
+                "Culver", "97451", "841-874-6513", null));
+        personsWithoutMail.add(new Person("Tenley", "Boyd", "1509 Culver St",
+                "Culver", "97451", "841-874-6512", null));
+    }
     @Test
     void getCommunityEmails_Emails_Empty() {
         // GIVEN
-        given(personDao.getPersonsByCity(anyString())).willReturn(Collections.emptyList());
+        given(personDao.getPersonsByCity(anyString())).willReturn(personsWithoutMail);
 
         // WHEN
-        List<String> emails = personService.getCommunityEmails("Culver12");
+        List<String> emails = personService.getCommunityEmails("Culver1");
 
         // THEN
         verify(personDao, times(1)).getPersonsByCity(anyString());

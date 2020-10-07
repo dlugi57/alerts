@@ -1,6 +1,7 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.dao.MedicalRecordDao;
+import com.safetynet.alerts.dao.PersonDao;
 import com.safetynet.alerts.model.MedicalRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
     MedicalRecordDao medicalRecordDao;
 
     /**
-     * Initialize medical record service with data from DAO
+     * Field injection of medical record dao
      *
-     * @param medicalRecordDao medical record object
+     * @param medicalRecordDao medical records data
      */
     @Autowired
-    public MedicalRecordServiceImpl(MedicalRecordDao medicalRecordDao) {
+    public void setMedicalRecordDao(MedicalRecordDao medicalRecordDao) {
         this.medicalRecordDao = medicalRecordDao;
     }
 

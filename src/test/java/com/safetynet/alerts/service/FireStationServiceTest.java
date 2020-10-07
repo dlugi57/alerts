@@ -246,6 +246,15 @@ class FireStationServiceTest {
     }
 
     @Test
+    void deleteFireStation_Station_DontExist() {
+
+        // WHEN
+        boolean fireStation = fireStationService.deleteFireStation(new FireStation(null, 0));
+        // THEN
+        assertThat(fireStation).isEqualTo(false);
+    }
+
+    @Test
     void deleteFireStation_ByStation_DontExist() {
         // GIVEN
         given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(null);

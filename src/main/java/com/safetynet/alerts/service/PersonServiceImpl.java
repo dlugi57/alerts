@@ -204,10 +204,8 @@ public class PersonServiceImpl implements PersonService {
             // parse data and create list of DTO persons
             List<PersonFire> personsFire = parsePersonsFire(persons);
             // initialize DTO object and set data
-            if (!personsFire.isEmpty()) {
-                personsAndStationByAddress = new PersonsAndStationByAddress();
-                personsAndStationByAddress.setPersons(personsFire);
-            }
+            personsAndStationByAddress = new PersonsAndStationByAddress();
+            personsAndStationByAddress.setPersons(personsFire);
         }
         // if object is initialized set station
         if (personsAndStationByAddress != null) {
@@ -251,11 +249,8 @@ public class PersonServiceImpl implements PersonService {
                             // parse data and create list of DTO persons
                             List<PersonFire> personsFire = parsePersonsFire(persons);
                             // initialize DTO object and set data
-                            if (!personsFire.isEmpty()) {
-                                personsAndAddressesByStation = new PersonsAndAddressesByStation();
-                                personsAndAddressesByStation.setPersons(personsFire);
-                            }
-
+                            personsAndAddressesByStation = new PersonsAndAddressesByStation();
+                            personsAndAddressesByStation.setPersons(personsFire);
                         }
 
                         // if object is initialized set station
@@ -315,11 +310,7 @@ public class PersonServiceImpl implements PersonService {
                     // increment list
                     personsInfo.add(personInfo);
                 }
-                // send result if not empty
-                // TODO: 07/10/2020  
-                //if (!personsInfo.isEmpty()) {
-                    return personsInfo;
-                //}
+                return personsInfo;
             }
         }
 
@@ -341,7 +332,9 @@ public class PersonServiceImpl implements PersonService {
         // if there are persons
         if (persons != null && !persons.isEmpty()) {
             for (Person person : persons) {
-                communityEmails.add(person.getEmail());
+                if (person.getEmail() != null) {
+                    communityEmails.add(person.getEmail());
+                }
             }
             // send if there are some results
             if (!communityEmails.isEmpty()) {

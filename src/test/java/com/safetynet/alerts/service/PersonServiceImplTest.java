@@ -4,6 +4,8 @@ import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.dao.MedicalRecordDao;
 import com.safetynet.alerts.dao.PersonDao;
 import com.safetynet.alerts.dto.ChildrenByAddress;
+import com.safetynet.alerts.dto.PersonInfo;
+import com.safetynet.alerts.dto.PersonsAndAddressesByStation;
 import com.safetynet.alerts.dto.PersonsAndStationByAddress;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -17,12 +19,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -385,13 +387,267 @@ class PersonServiceTest {
 
     @Test
     void getPersonsAndAddressesByStations() {
+
+        // GIVE
+        given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(fireStations);
+        given(personDao.getPersonsByAddress(anyString())).willReturn(persons);
+        given(medicalRecordDao.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).willReturn(medicalRecordList.get(1));
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Arrays.asList(1, 3));
+
+        // THEN
+        verify(fireStationDao, times(2)).getFireStationsByStationId(
+                anyInt());
+        verify(personDao, times(6)).getPersonsByAddress(anyString());
+        verify(medicalRecordDao, times(18)).getMedicalRecordByFirstNameAndLastName(
+                anyString(), anyString());
+
+        assertThat(personsAndAddressesByStationList.size()).isEqualTo(6);
+        assertThat(personsAndAddressesByStationList.get(0).getPersons().size()).isEqualTo(3);
+        assertThat(personsAndAddressesByStationList.get(0).getAddress()).isEqualTo("1509 Culver St");
+    }
+
+    @Test
+    void getPersonsAndAddressesByStations_FireStation_Null() {
+        // GIVE
+        given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(null);
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Arrays.asList(1, 3));
+
+        // THEN
+        verify(fireStationDao, times(2)).getFireStationsByStationId(
+                anyInt());
+
+        assertThat(personsAndAddressesByStationList).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsAndAddressesByStations_FireStation_Empty() {
+        // GIVE
+        given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(Collections.emptyList());
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Arrays.asList(1, 3));
+
+        // THEN
+        verify(fireStationDao, times(2)).getFireStationsByStationId(
+                anyInt());
+
+        assertThat(personsAndAddressesByStationList).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsAndAddressesByStations_Persons_Null() {
+        // GIVE
+        given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(fireStations);
+        given(personDao.getPersonsByAddress(anyString())).willReturn(null);
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Arrays.asList(1, 3));
+
+        // THEN
+        verify(fireStationDao, times(2)).getFireStationsByStationId(
+                anyInt());
+        verify(personDao, times(6)).getPersonsByAddress(anyString());
+
+        assertThat(personsAndAddressesByStationList).isEqualTo(null);
+    }
+
+
+    @Test
+    void getPersonsAndAddressesByStations_MedicalRecords_Null() {
+        // GIVEN
+        given(fireStationDao.getFireStationsByStationId(anyInt())).willReturn(fireStations);
+        given(personDao.getPersonsByAddress(anyString())).willReturn(persons);
+        given(medicalRecordDao.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).willReturn(null);
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Arrays.asList(1, 3));
+
+        // THEN
+        verify(fireStationDao, times(2)).getFireStationsByStationId(
+                anyInt());
+        verify(personDao, times(6)).getPersonsByAddress(anyString());
+        verify(medicalRecordDao, times(18)).getMedicalRecordByFirstNameAndLastName(
+                anyString(), anyString());
+
+        assertThat(personsAndAddressesByStationList.size()).isEqualTo(6);
+        assertThat(personsAndAddressesByStationList.get(0).getPersons().size()).isEqualTo(3);
+        assertThat(personsAndAddressesByStationList.get(0).getAddress()).isEqualTo("1509 Culver St");
+    }
+
+    @Test
+    void getPersonsAndAddressesByStations_Stations_Empty() {
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(Collections.emptyList());
+
+        // THEN
+        assertThat(personsAndAddressesByStationList).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsAndAddressesByStations_Stations_Null() {
+
+        // WHEN
+        List<PersonsAndAddressesByStation> personsAndAddressesByStationList =
+                personService.getPersonsAndAddressesByStations(null);
+
+        // THEN
+        assertThat(personsAndAddressesByStationList).isEqualTo(null);
     }
 
     @Test
     void getPersonsInfo() {
+        // GIVEN
+        given(personDao.getByFirstNameAndLastName(anyString(), anyString())).willReturn(persons.get(0));
+        given(personDao.getPersonsByAddress(anyString())).willReturn(persons);
+        given(medicalRecordDao.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).willReturn(medicalRecordList.get(0));
+
+        // WHEN
+        List<PersonInfo> personsInfo =
+                personService.getPersonsInfo("John", "Boyd");
+
+        // THEN
+        verify(personDao, times(1)).getByFirstNameAndLastName(anyString(), anyString());
+        verify(personDao, times(1)).getPersonsByAddress(anyString());
+        verify(medicalRecordDao, times(3)).getMedicalRecordByFirstNameAndLastName(
+                anyString(), anyString());
+
+        assertThat(personsInfo.size()).isEqualTo(3);
+        assertThat(personsInfo.get(0).getLastName()).isEqualTo("Boyd");
+        assertThat(personsInfo.get(0).getAddress()).isEqualTo("1509 Culver St");
+    }
+
+    @Test
+    void getPersonsInfo_Person_Null() {
+        // GIVEN
+        given(personDao.getByFirstNameAndLastName(anyString(), anyString())).willReturn(null);
+
+        // WHEN
+        List<PersonInfo> personsInfo =
+                personService.getPersonsInfo("John", "Boyd");
+
+        // THEN
+        verify(personDao, times(1)).getByFirstNameAndLastName(anyString(), anyString());
+
+        assertThat(personsInfo).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsInfo_Persons_Null() {
+        // GIVEN
+        given(personDao.getByFirstNameAndLastName(anyString(), anyString())).willReturn(persons.get(0));
+        given(personDao.getPersonsByAddress(anyString())).willReturn(null);
+
+        // WHEN
+        List<PersonInfo> personsInfo =
+                personService.getPersonsInfo("John", "Boyd");
+
+        // THEN
+        verify(personDao, times(1)).getByFirstNameAndLastName(anyString(), anyString());
+        verify(personDao, times(1)).getPersonsByAddress(anyString());
+
+        assertThat(personsInfo).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsInfo_Persons_Empty() {
+        // GIVEN
+        given(personDao.getByFirstNameAndLastName(anyString(), anyString())).willReturn(persons.get(0));
+        given(personDao.getPersonsByAddress(anyString())).willReturn(Collections.emptyList());
+
+        // WHEN
+        List<PersonInfo> personsInfo =
+                personService.getPersonsInfo("John", "Boyd");
+
+        // THEN
+        verify(personDao, times(1)).getByFirstNameAndLastName(anyString(), anyString());
+        verify(personDao, times(1)).getPersonsByAddress(anyString());
+
+        assertThat(personsInfo).isEqualTo(null);
+    }
+
+    @Test
+    void getPersonsInfo_MedicalRecord_Null() {
+        // GIVEN
+        given(personDao.getByFirstNameAndLastName(anyString(), anyString())).willReturn(persons.get(0));
+        given(personDao.getPersonsByAddress(anyString())).willReturn(persons);
+        given(medicalRecordDao.getMedicalRecordByFirstNameAndLastName(anyString(), anyString())).willReturn(null);
+
+        // WHEN
+        List<PersonInfo> personsInfo =
+                personService.getPersonsInfo("John", "Boyd");
+
+        // THEN
+        verify(personDao, times(1)).getByFirstNameAndLastName(anyString(), anyString());
+        verify(personDao, times(1)).getPersonsByAddress(anyString());
+        verify(medicalRecordDao, times(3)).getMedicalRecordByFirstNameAndLastName(
+                anyString(), anyString());
+
+        assertThat(personsInfo.size()).isEqualTo(3);
+        assertThat(personsInfo.get(0).getLastName()).isEqualTo(null);
+        assertThat(personsInfo.get(0).getAddress()).isEqualTo(null);
     }
 
     @Test
     void getCommunityEmails() {
+        // GIVEN
+        given(personDao.getPersonsByCity(anyString())).willReturn(persons);
+
+        // WHEN
+        List<String> emails = personService.getCommunityEmails("Culver");
+
+        // THEN
+        verify(personDao, times(1)).getPersonsByCity(anyString());
+        assertThat(emails.size()).isEqualTo(3);
+        assertThat(emails.get(0)).isEqualTo("jaboyd@email.com");
+    }
+
+    @Test
+    void getCommunityEmails_Persons_Null() {
+        // GIVEN
+        given(personDao.getPersonsByCity(anyString())).willReturn(null);
+
+        // WHEN
+        List<String> emails = personService.getCommunityEmails("Culver");
+
+        // THEN
+        verify(personDao, times(1)).getPersonsByCity(anyString());
+        assertThat(emails).isEqualTo(null);
+    }
+
+    @Test
+    void getCommunityEmails_Persons_Empty() {
+        // GIVEN
+        given(personDao.getPersonsByCity(anyString())).willReturn(Collections.emptyList());
+
+        // WHEN
+        List<String> emails = personService.getCommunityEmails("Culver");
+
+        // THEN
+        verify(personDao, times(1)).getPersonsByCity(anyString());
+        assertThat(emails).isEqualTo(null);
+    }
+
+    @Test
+    void getCommunityEmails_Emails_Empty() {
+        // GIVEN
+        given(personDao.getPersonsByCity(anyString())).willReturn(Collections.emptyList());
+
+        // WHEN
+        List<String> emails = personService.getCommunityEmails("Culver12");
+
+        // THEN
+        verify(personDao, times(1)).getPersonsByCity(anyString());
+        assertThat(emails).isEqualTo(null);
     }
 }

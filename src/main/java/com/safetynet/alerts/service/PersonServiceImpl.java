@@ -316,9 +316,10 @@ public class PersonServiceImpl implements PersonService {
                     personsInfo.add(personInfo);
                 }
                 // send result if not empty
-                if (!personsInfo.isEmpty()) {
+                // TODO: 07/10/2020  
+                //if (!personsInfo.isEmpty()) {
                     return personsInfo;
-                }
+                //}
             }
         }
 

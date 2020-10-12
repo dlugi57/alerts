@@ -80,6 +80,17 @@ public class MedicalRecordIT {
                 .andExpect(status().isCreated());
     }
 
+    @Order(4)
+    @Test
+    public void updateMedicalRecord_NotNull() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/medicalrecord")
+                .contentType("application/json")
+                .content("{\"firstName\":\"John\",\"lastName\":\"Boyd\"," +
+                        "\"birthdate\":\"12/06/1988\",\"medications\":[\"aznol:350mg\",\"hydrapermazol:100mg\"],\"allergies\":[\"nillacilan\"]}"))
+                .andExpect(status().isCreated());
+    }
+
     @Order(5)
     @Test
     public void deletePerson() throws Exception {

@@ -85,6 +85,19 @@ public class PersonIT {
                 .andExpect(status().isCreated());
     }
 
+    @Order(4)
+    @Test
+    public void updatePerson_Null() throws Exception {
+
+        Person person = new Person("John", "Boyd", null, null, null, null,
+                null);
+        ObjectMapper mapper = new ObjectMapper();
+        mockMvc.perform(MockMvcRequestBuilders.put("/person")
+                .contentType("application/json")
+                .content(mapper.writeValueAsString(person)))
+                .andExpect(status().isCreated());
+    }
+
     @Order(5)
     @Test
     public void deletePerson() throws Exception {

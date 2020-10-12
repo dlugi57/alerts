@@ -15,7 +15,6 @@ public class MedicalRecord {
     @NotBlank(message = "Please enter the last name")
     private String lastName;
 
-    //@JsonFormat(pattern = "MM/dd/yyyy")
     private LocalDate birthdate;
 
     private List<String> medications;

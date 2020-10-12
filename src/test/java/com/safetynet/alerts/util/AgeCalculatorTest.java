@@ -7,7 +7,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 @ExtendWith(SpringExtension.class)
-// TODO: 07/10/2020 how to test this one  
 public class AgeCalculatorTest {
 
     @Test

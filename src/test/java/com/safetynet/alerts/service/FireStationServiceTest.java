@@ -101,8 +101,6 @@ class FireStationServiceTest {
         }
     }
 
-// TODO: 03/10/2020 how to print tests
-
     @Test
     void getFireStationsByStationId() {
         // GIVEN

@@ -10,12 +10,6 @@ public class DataAlert {
 
     private List<MedicalRecord> medicalrecords;
 
-/*    public DataAlert(List<Person> persons, List<FireStation> firestations, List<MedicalRecord> medicalrecords) {
-        this.persons = persons;
-        this.firestations = firestations;
-        this.medicalrecords = medicalrecords;
-    }*/
-
     public DataAlert() {
     }
 

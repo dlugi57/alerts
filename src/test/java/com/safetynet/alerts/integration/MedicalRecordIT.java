@@ -1,11 +1,13 @@
-
 package com.safetynet.alerts.integration;
 
+import com.safetynet.alerts.dao.MedicalRecordDao;
+import com.safetynet.alerts.model.MedicalRecord;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -13,14 +15,20 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
+@Rollback()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MedicalRecordIT {
+
+    @Autowired
+    MedicalRecordDao medicalRecordDao;
 
     @Autowired
     private WebApplicationContext wac;
@@ -67,6 +75,10 @@ public class MedicalRecordIT {
                 .content("{\"firstName\":\"Piotr\",\"lastName\":\"Dlugosz\"," +
                         "\"birthdate\":\"12/06/1975\"}"))
                 .andExpect(status().isCreated());
+
+        MedicalRecord medicalRecordAdd = medicalRecordDao.getMedicalRecordByFirstNameAndLastName("Piotr", "Dlugosz");
+
+        assertNotNull(medicalRecordAdd);
     }
 
     @Order(4)
@@ -78,6 +90,12 @@ public class MedicalRecordIT {
                 .content("{\"firstName\":\"John\",\"lastName\":\"Boyd\"," +
                         "\"birthdate\":\"12/06/1988\"}"))
                 .andExpect(status().isCreated());
+
+        MedicalRecord medicalRecordUpdate = medicalRecordDao.getMedicalRecordByFirstNameAndLastName(
+                "John", "Boyd");
+        assertNotNull(medicalRecordUpdate);
+        assertThat(java.sql.Date.valueOf(medicalRecordUpdate.getBirthdate())).isEqualTo(
+                "1988-06-12");
     }
 
     @Order(4)
@@ -93,12 +111,17 @@ public class MedicalRecordIT {
 
     @Order(5)
     @Test
-    public void deletePerson() throws Exception {
+    public void deleteMedicalRecord() throws Exception {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/medicalrecord")
                 .contentType("application/json")
                 .content("{\"firstName\":\"John\",\"lastName\":\"Boyd\"," +
                         "\"birthdate\":\"12/06/1988\"}"))
                 .andExpect(status().isOk());
+
+        MedicalRecord medicalRecordDelete = medicalRecordDao.getMedicalRecordByFirstNameAndLastName(
+                "John", "Boyd");
+
+        assertThat(medicalRecordDelete).isEqualTo(null);
     }
 }

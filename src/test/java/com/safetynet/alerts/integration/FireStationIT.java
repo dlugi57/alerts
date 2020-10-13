@@ -1,6 +1,7 @@
 package com.safetynet.alerts.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynet.alerts.dao.FireStationDao;
 import com.safetynet.alerts.model.FireStation;
 import org.hamcrest.text.IsEmptyString;
 import org.junit.jupiter.api.*;
@@ -16,15 +17,20 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
-@Rollback()//check this one without test methode order
+@Rollback()
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FireStationIT {
+
+    @Autowired
+    FireStationDao fireStationDao;
 
     @Autowired
     private WebApplicationContext wac;
@@ -85,14 +91,18 @@ public class FireStationIT {
     @Test
     public void addFireStation() throws Exception {
 
-        FireStation fireStation = new FireStation("10 avenue du Bosquet", 3);
+        FireStation fireStation = new FireStation("10avenue du Bosquet", 3);
         ObjectMapper mapper = new ObjectMapper();
         mockMvc.perform(MockMvcRequestBuilders.post("/firestation")
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isCreated());
 
-        // TODO: 13/10/2020 check if this object is created in DB
+        FireStation fireStationAdd = fireStationDao
+                .getFireStationByStationAddress("10 avenue du Bosquet");
+
+        assertNotNull(fireStationAdd);
+        assertThat(mapper.writeValueAsString(fireStation)).isEqualTo(mapper.writeValueAsString(fireStationAdd));
     }
 
     @Order(5)
@@ -106,8 +116,11 @@ public class FireStationIT {
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isCreated());
 
-        // TODO: 13/10/2020 check if this object is created in DB
+        FireStation fireStationUpdate = fireStationDao
+                .getFireStationByStationAddress("1509 Culver St");
 
+        assertNotNull(fireStationUpdate);
+        assertThat(mapper.writeValueAsString(fireStation)).isEqualTo(mapper.writeValueAsString(fireStationUpdate));
     }
 
     @Order(5)
@@ -121,7 +134,9 @@ public class FireStationIT {
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isOk());
 
-        // TODO: 13/10/2020 check if this object is deleted from DB
+        FireStation fireStationDelete = fireStationDao
+                .getFireStationByStationAddress("1509 Culver St");
 
+        assertThat(fireStationDelete).isEqualTo(null);
     }
 }

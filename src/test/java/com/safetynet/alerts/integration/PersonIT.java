@@ -2,6 +2,8 @@
 package com.safetynet.alerts.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.safetynet.alerts.dao.PersonDao;
+import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.Person;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,6 +17,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -23,6 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class PersonIT {
+
+    @Autowired
+    PersonDao personDao;
 
     @Autowired
     private WebApplicationContext wac;
@@ -70,6 +77,12 @@ public class PersonIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(person)))
                 .andExpect(status().isCreated());
+
+        Person personAdd = personDao
+                .getByFirstNameAndLastName("Piotr", "Dlugosz");
+
+        assertNotNull(personAdd);
+        assertThat(mapper.writeValueAsString(person)).isEqualTo(mapper.writeValueAsString(personAdd));
     }
 
     @Order(4)
@@ -83,6 +96,12 @@ public class PersonIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(person)))
                 .andExpect(status().isCreated());
+
+        Person personUpdate = personDao
+                .getByFirstNameAndLastName("John", "Boyd");
+
+        assertNotNull(personUpdate);
+        assertThat(mapper.writeValueAsString(person.getCity())).isEqualTo(mapper.writeValueAsString(personUpdate.getCity()));
     }
 
     @Order(4)
@@ -109,5 +128,10 @@ public class PersonIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(person)))
                 .andExpect(status().isOk());
+
+        Person personDelete = personDao
+                .getByFirstNameAndLastName("John", "Boyd");
+
+        assertThat(personDelete).isEqualTo(null);
     }
 }

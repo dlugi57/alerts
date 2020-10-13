@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
+@Rollback()//check this one without test methode order
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FireStationIT {
 
@@ -89,6 +91,8 @@ public class FireStationIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isCreated());
+
+        // TODO: 13/10/2020 check if this object is created in DB
     }
 
     @Order(5)
@@ -101,6 +105,9 @@ public class FireStationIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isCreated());
+
+        // TODO: 13/10/2020 check if this object is created in DB
+
     }
 
     @Order(5)
@@ -113,5 +120,8 @@ public class FireStationIT {
                 .contentType("application/json")
                 .content(mapper.writeValueAsString(fireStation)))
                 .andExpect(status().isOk());
+
+        // TODO: 13/10/2020 check if this object is deleted from DB
+
     }
 }

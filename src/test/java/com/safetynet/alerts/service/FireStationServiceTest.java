@@ -36,7 +36,6 @@ class FireStationServiceTest {
         }
     }
 
-    // TODO: 06/10/2020 when put autowired warning shows in intellij  
     @Resource
     FireStationService fireStationService;
     @MockBean

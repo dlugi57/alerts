@@ -22,12 +22,9 @@ import java.util.List;
 public class FireStationServiceImpl implements FireStationService {
 
     // initialize objects
-    //@Autowired
     FireStationDao fireStationDao;
     PersonDao personDao;
     MedicalRecordDao medicalRecordDao;
-
-    // TODO: 06/10/2020 this method for injection was proposed because when field injection error shows in intellij apparently field injection is not recomended 
 
     /**
      * Field injection of fire station dao
